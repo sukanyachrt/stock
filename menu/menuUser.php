@@ -29,7 +29,7 @@ function isActive($data)
 				<img src="asset/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
 			</div>
 			<div class="info">
-				<a href="#" class="d-block">Admin <?php echo isActive('admin') ?></a>
+				<a href="#" class="d-block">ผู้ใช้งานทั่วไป</a>
 			</div>
 		</div>
 
@@ -49,34 +49,15 @@ function isActive($data)
 		<nav class="mt-2">
 			<ul class="nav nav-pills nav-sidebar flex-column " data-widget="treeview" role="menu" data-accordion="false">
 				<li class="nav-item">
-					<a href="admin" class="nav-link <?php echo isActive('admin') ?>">
-					<i class="nav-icon fas fa-tachometer-alt"></i>
+					<a href="home" class="nav-link <?php echo isActive('home') ?>">
+						<i class="nav-icon fas fa-th"></i>
 						<p>
-							dashboard
+							เบิก-คืนสินค้า
 
 						</p>
 					</a>
 				</li>
-				<li class="nav-item">
-					<a href="" class="nav-link <?php echo isActive('dashboard') ?>">
-						<i class="nav-icon fas fa-user-cog"></i>
-						<p>
-							จัดการผู้ใช้งาน
-
-						</p>
-					</a>
 				</li>
-				<li class="nav-item">
-					<a href="" class="nav-link <?php echo isActive('dashboard') ?>">
-						<i class="nav-icon fab fa-skype"></i>
-						<p>
-							จัดการข้อมูลสินค้า
-
-						</p>
-					</a>
-				</li>
-				
-
 			</ul>
 		</nav>
 	</div>
