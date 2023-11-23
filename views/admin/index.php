@@ -1,4 +1,4 @@
-<?php include('header.php') ?>
+<?php include('menu/header.php') ?>
 
 <link rel="stylesheet" href="asset/plugins/select2/css/select2.min.css">
 <link rel="stylesheet" href="asset/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
@@ -76,7 +76,7 @@
     </nav>
     <!-- /.navbar -->
 
-    <?php include('menu.php') ?>
+    <?php include('menu/menuAdmin.php') ?>
 
     <div class="content-wrapper">
       <div class="content-header">
@@ -98,7 +98,7 @@
           </div>
       </section>
       <!-- /.content-wrapper -->
-      <?php include('footer.php') ?>
+      <?php include('menu/footer.php') ?>
 
 
 
@@ -108,7 +108,7 @@
 
     </div>
 
-    <?php include('script.php') ?>
+    <?php include('menu/script.php') ?>
 </body>
 
 <script src="asset/plugins/select2/js/select2.full.min.js"></script>
