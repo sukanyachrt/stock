@@ -58,7 +58,7 @@ function isActive($data)
 					</a>
 				</li>
 				<li class="nav-item">
-					<a href="" class="nav-link <?php echo isActive('dashboard') ?>">
+					<a href="employee" class="nav-link <?php echo isActive('employee') ?>">
 						<i class="nav-icon fas fa-user-cog"></i>
 						<p>
 							จัดการผู้ใช้งาน

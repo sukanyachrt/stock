@@ -3,6 +3,19 @@
 <link rel="stylesheet" href="asset/plugins/select2/css/select2.min.css">
 <link rel="stylesheet" href="asset/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
 <link rel="stylesheet" href="asset/dist/css/adminlte.min.css">
+<style>
+    .file {
+        position: relative;
+        overflow: hidden;
+    }
+
+    #file {
+        position: absolute;
+        opacity: 0;
+        right: 0;
+        top: 0;
+    }
+</style>
 
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
@@ -200,16 +213,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="card-footer text-center">
-                                    <button type="button" class="btn btn-primary">
-                                        <i class="fas fa-save"></i>
-                                        บันทึกข้อมูล
-                                    </button>
-                                    <button type="button" class="btn btn-warning">
-                                        <i class="fas fa-undo"></i>
-                                        ยกเลิก
-                                    </button>
-                                </div>
+                                
 
                             </div>
                         </div>
@@ -230,10 +234,7 @@
                         </div>
                         <div class="modal-body">
                             <div class="row">
-                                <div class="col-md-6">
-                                    <img id="imageProduct" alt="" />
-                                    <input type="file" onchange="loadFile(this)" accept="image/*">
-                                </div>
+
                                 <div class="col-md-6">
                                     <div class="form-group row">
                                         <label for="inputEmail3" class="col-sm-4 col-form-label">รหัสบาร์โค้ด : <span class="text-danger">*</span></label>
@@ -277,7 +278,21 @@
 
 
                             </div>
-
+                            <div class="row">
+                                <div class="col-md-6" style="align-content: center;">
+                                    <div class="card text-center">
+                                        <div class="card-body">
+                                            <img class="card-img-top" style="width: 150px;" id="imageProduct">
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="file btn btn-primary">
+                                                เพิ่มรุป
+                                                <input type="file" id="file" name="file" onchange="loadFile(this)" accept="image/*" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
                         </div>
                         <div class="modal-footer justify-center">
@@ -292,13 +307,9 @@
 
                         </div>
                     </div>
-                    <!-- /.modal-content -->
                 </div>
-                <!-- /.modal-dialog -->
             </div>
-
         </div>
-
         <?php include('menu/script.php') ?>
 </body>
 

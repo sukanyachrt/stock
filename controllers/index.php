@@ -36,6 +36,15 @@ class product extends Controller
     }
 }
 
+class employee extends Controller
+{
+    function __construct()
+    {
+        parent::__construct();
+        $this->view->render('admin/employee/index');
+    }
+}
+
 
 class notfound extends Controller
 {
