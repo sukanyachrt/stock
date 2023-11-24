@@ -36,3 +36,11 @@ else if ($data == "editemp") {
     $connect->queryData();
     echo json_encode(1);
 }
+
+else if ($data == "delemp") {
+    $id = $_GET['id'];
+    $connect->sql = "UPDATE employees SET  status_emp='0'  WHERE id ='".$id."'";
+    $connect->queryData();
+    echo json_encode(1);
+}
+

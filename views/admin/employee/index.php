@@ -131,7 +131,7 @@ $connect->connectData();
                                                     <div class="input-group-text px-2">ค้นหาข้อมูล </div>
                                                 </div>
 
-                                                <input type="text" class="form-control" autocomplete="yes" name="searchEmploy" placeholder="ค้นหาข้อมูล">
+                                                <input type="text" class="form-control" autocomplete="yes" id="searchEmploy" name="searchEmploy" placeholder="ค้นหาข้อมูล">
                                             </div>
                                         </div>
                                         <div class="col-sm-2">
@@ -146,7 +146,7 @@ $connect->connectData();
                                     </div>
                                     <div class="row">
                                         <div class="col-12">
-                                            <table class="table table-bordered" id="tbDataEmploy">
+                                            <table class="table table-bordered table-hover" id="tbDataEmploy">
                                                 <thead>
                                                     <tr>
                                                         <th style="width: 10px" class="text-center">#</th>
@@ -160,74 +160,7 @@ $connect->connectData();
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
-                                                        <td class="text-center">1.</td>
-                                                        <td class="text-center">00001</td>
-                                                        <td>
-                                                            กัญญา รัตนเพชร์
-                                                        </td>
-                                                        <td>
-                                                            IT
-                                                        </td>
-                                                        <td class="text-center">00001</td>
-                                                        <td class="text-center">
-                                                            <span class="badge bg-success">ใช้งาน</span>
-                                                        </td>
-                                                        <td class="text-center">
-                                                            <button type="button" class="btn btn-warning btn-sm"> <i class="fa fa-edit"></i>แก้ไข</button>
-                                                            <button type="button" class="btn btn-danger btn-sm"> <i class="fas fa-times delete-row"></i> ลบ</button>
-                                                        </td>
 
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-center">2.</td>
-                                                        <td class="text-center">00002</td>
-                                                        <td>
-                                                            กิ่งดาว ดารณี
-                                                        </td>
-                                                        <td>
-                                                            IT
-                                                        </td>
-                                                        <td class="text-center">00002</td>
-                                                        <td class="text-center"> <span class="badge bg-success">ใช้งาน</span></td>
-                                                        <td class="text-center">
-                                                            <button type="button" class="btn btn-warning btn-sm"> <i class="fa fa-edit"></i>แก้ไข</button>
-                                                            <button type="button" class="btn btn-danger btn-sm"> <i class="fas fa-times delete-row"></i> ลบ</button>
-                                                        </td>
-
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-center">3.</td>
-                                                        <td class="text-center">00003</td>
-                                                        <td>
-                                                            กชกร ส่งแสงเติม
-                                                        </td>
-                                                        <td>
-                                                            การตลาด
-                                                        </td>
-                                                        <td class="text-center">00003</td>
-                                                        <td class="text-center"> <span class="badge bg-success">ใช้งาน</span></td>
-                                                        <td class="text-center">
-                                                            <button type="button" class="btn btn-warning btn-sm"> <i class="fa fa-edit"></i>แก้ไข</button>
-                                                            <button type="button" class="btn btn-danger btn-sm"> <i class="fas fa-times delete-row"></i> ลบ</button>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-center">4.</td>
-                                                        <td class="text-center">00004</td>
-                                                        <td>
-                                                            กุลณัฐ กุลปรียาวัฒน์
-                                                        </td>
-                                                        <td>
-                                                            ซ่อมบำรุง
-                                                        </td>
-                                                        <td class="text-center">00004</td>
-                                                        <td class="text-center"> <span class="badge bg-success">ใช้งาน</span></td>
-                                                        <td class="text-center">
-                                                            <button type="button" class="btn btn-warning btn-sm"> <i class="fa fa-edit"></i>แก้ไข</button>
-                                                            <button type="button" class="btn btn-danger btn-sm"> <i class="fas fa-times delete-row"></i> ลบ</button>
-                                                        </td>
-                                                    </tr>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -237,275 +170,305 @@ $connect->connectData();
                             </div>
                         </div>
                     </div>
-
-            </section>
-            <?php include('menu/footer.php') ?>
-            <!-- เพิ่มข้อมูล -->
-            <div class="modal fade" id="modal-default">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <form class="form-horizontal" id="employeeForm">
-                            <div class="modal-header">
-                                <h4 class="modal-title">
-                                    <i class="fas fa-plus"></i>
-                                    เพิ่มข้อมูลพนักงาน
-                                </h4>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="row justify-content-center">
-                                    <div class="col-md-8">
-                                        <div class="form-group row">
-                                            <label for="inputEmail3" class="col-sm-3 col-form-label">รหัสพนักงาน : <span class="text-danger">*</span></label>
-                                            <div class="col-sm-9">
-                                                <input type="text" autocomplete="yes" class="form-control" id="empid" name="empid" placeholder="รหัสพนักงาน">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="form-group row">
-                                            <label for="inputPassword3" class="col-sm-3 col-form-label">ชื่อ : <span class="text-danger">*</span></label>
-                                            <div class="col-sm-9">
-                                                <input type="text" autocomplete="yes" class="form-control" id="fname" name="fname" placeholder="ชื่อ">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="form-group row">
-                                            <label for="inputEmail3" class="col-sm-3 col-form-label">นามสกุล : <span class="text-danger">*</span></label>
-                                            <div class="col-sm-9">
-                                                <input type="text" autocomplete="yes" class="form-control" id="lname" name="lname" placeholder="นามสกุล">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="form-group row">
-                                            <label for="inputPassword3" class="col-sm-3 col-form-label">แผนก : <span class="text-danger">*</span></label>
-                                            <div class="col-sm-9">
-                                                <?php
-                                                $connect->sql = "SELECT * FROM depart WHERE status=1";
-                                                $connect->queryData();
-                                                ?>
-                                                <select class="form-control" id="depart" name="depart">
-                                                    <option disabled selected value="">-- เลือก --</option>
-                                                    <?php
-                                                    while ($rsconnect = $connect->fetch_AssocData()) {
-                                                    ?>
-                                                        <option value="<?= $rsconnect['id'] ?>"><?php echo $rsconnect['departname'] ?></option>
-                                                    <?php
-                                                    }
-                                                    ?>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="form-group row">
-                                            <label for="inputPassword3" class="col-sm-3 col-form-label">สิทธิ์ผู้ใช้งาน : <span class="text-danger">*</span></label>
-                                            <div class="col-sm-9">
-                                                <select class="form-control" id="role_emp" name="role_emp">
-                                                    <option disabled selected value="">-- เลือก --</option>
-                                                    <option value="user">ผู้ใช้งานทั่วไป</option>
-                                                    <option value="admin">Admin</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="form-group row">
-                                            <label for="inputPassword3" class="col-sm-3 col-form-label">Username : </label>
-                                            <div class="col-sm-9">
-                                                <input type="text" autocomplete="yes" class="form-control" id="username" name="username" placeholder="Username">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="form-group row">
-                                            <label for="inputPassword3" class="col-sm-3 col-form-label">Password : </label>
-                                            <div class="col-sm-9">
-                                                <input type="text" autocomplete="yes" class="form-control" id="password" name="password" placeholder="Password">
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-                                </div>
-
-
-                            </div>
-                            <div class="modal-footer justify-content-center">
-                                <div class="custom-control custom-switch">
-                                    <input type="checkbox" id="checkAdd" class="custom-control-input">
-                                    <label class="custom-control-label" for="checkAdd">เพิ่มรายชื่ออื่นๆ ต่อ</label>
-                                </div>
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fas fa-save"></i>
-                                    บันทึก
-                                </button>
-                                <button type="button" class="btn btn-default" data-dismiss="modal">
-                                    <i class="fas fa-times delete-row"></i>
-                                    ยกเลิก
-                                </button>
-
-                            </div>
-                        </form>
-                    </div>
                 </div>
+            </section>
+        </div>
+        <footer class="main-footer">
+            <strong>ระบบ Stock <a href="https://adminlte.io">@2023</a></strong>
+
+            <div class="float-right d-none d-sm-inline-block">
+                <b>By</b> นักศึกษาฝึกงาน.
             </div>
-            <!-- จบเพิ่มข้อมุล -->
-            <!-- แก้ไขข้อมูล -->
-            <div class="modal fade" id="modal-edit">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <form class="form-horizontal" id="editemployeeForm">
-                            <div class="modal-header">
-                                <h4 class="modal-title">
-                                    <i class="fas fa-plus"></i>
-                                    แก้ไขข้อมูลพนักงาน
-                                </h4>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="row justify-content-center">
-                                    <div class="col-md-8">
-                                        <div class="form-group row">
-                                            <label for="inputEmail3" class="col-sm-3 col-form-label">รหัสพนักงาน : <span class="text-danger">*</span></label>
-                                            <div class="col-sm-9">
-                                                <input type="text" autocomplete="yes" class="form-control" id="editempid" name="editempid" placeholder="รหัสพนักงาน">
-                                            </div>
+        </footer>
+        <aside class="control-sidebar control-sidebar-dark">
+            <!-- Control sidebar content goes here -->
+        </aside>
+        <!-- เพิ่มข้อมูล -->
+        <div class="modal fade" id="modal-default">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <form class="form-horizontal" id="employeeForm">
+                        <div class="modal-header">
+                            <h4 class="modal-title">
+                                <i class="fas fa-plus"></i>
+                                เพิ่มข้อมูลพนักงาน
+                            </h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row justify-content-center">
+                                <div class="col-md-8">
+                                    <div class="form-group row">
+                                        <label for="inputEmail3" class="col-sm-3 col-form-label">รหัสพนักงาน : <span class="text-danger">*</span></label>
+                                        <div class="col-sm-9">
+                                            <input type="text" autocomplete="yes" class="form-control" id="empid" name="empid" placeholder="รหัสพนักงาน">
                                         </div>
                                     </div>
-                                    <div class="col-md-8">
-                                        <div class="form-group row">
-                                            <label for="inputPassword3" class="col-sm-3 col-form-label">ชื่อ : <span class="text-danger">*</span></label>
-                                            <div class="col-sm-9">
-                                                <input type="text" autocomplete="yes" class="form-control" id="editfname" name="editfname" placeholder="ชื่อ">
-                                            </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="form-group row">
+                                        <label for="inputPassword3" class="col-sm-3 col-form-label">ชื่อ : <span class="text-danger">*</span></label>
+                                        <div class="col-sm-9">
+                                            <input type="text" autocomplete="yes" class="form-control" id="fname" name="fname" placeholder="ชื่อ">
                                         </div>
                                     </div>
-                                    <div class="col-md-8">
-                                        <div class="form-group row">
-                                            <label for="inputEmail3" class="col-sm-3 col-form-label">นามสกุล : <span class="text-danger">*</span></label>
-                                            <div class="col-sm-9">
-                                                <input type="text" autocomplete="yes" class="form-control" id="editlname" name="editlname" placeholder="นามสกุล">
-                                            </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="form-group row">
+                                        <label for="inputEmail3" class="col-sm-3 col-form-label">นามสกุล : <span class="text-danger">*</span></label>
+                                        <div class="col-sm-9">
+                                            <input type="text" autocomplete="yes" class="form-control" id="lname" name="lname" placeholder="นามสกุล">
                                         </div>
                                     </div>
-                                    <div class="col-md-8">
-                                        <div class="form-group row">
-                                            <label for="inputPassword3" class="col-sm-3 col-form-label">แผนก : <span class="text-danger">*</span></label>
-                                            <div class="col-sm-9">
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="form-group row">
+                                        <label for="inputPassword3" class="col-sm-3 col-form-label">แผนก : <span class="text-danger">*</span></label>
+                                        <div class="col-sm-9">
+                                            <?php
+                                            $connect->sql = "SELECT * FROM depart WHERE status=1";
+                                            $connect->queryData();
+                                            ?>
+                                            <select class="form-control" id="depart" name="depart">
+                                                <option disabled selected value="">-- เลือก --</option>
                                                 <?php
-                                                $connect->sql = "SELECT * FROM depart WHERE status=1";
-                                                $connect->queryData();
+                                                while ($rsconnect = $connect->fetch_AssocData()) {
                                                 ?>
-                                                <select class="form-control" id="editdepart" name="editdepart">
-                                                    <option disabled selected value="">-- เลือก --</option>
-                                                    <?php
-                                                    while ($rsconnect = $connect->fetch_AssocData()) {
-                                                    ?>
-                                                        <option value="<?= $rsconnect['id'] ?>"><?php echo $rsconnect['departname'] ?></option>
-                                                    <?php
-                                                    }
-                                                    ?>
-                                                </select>
-                                            </div>
+                                                    <option value="<?= $rsconnect['id'] ?>"><?php echo $rsconnect['departname'] ?></option>
+                                                <?php
+                                                }
+                                                ?>
+                                            </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-8">
-                                        <div class="form-group row">
-                                            <label for="inputPassword3" class="col-sm-3 col-form-label">สิทธิ์ผู้ใช้งาน : <span class="text-danger">*</span></label>
-                                            <div class="col-sm-9">
-                                                <select class="form-control" id="editrole_emp" name="editrole_emp">
-                                                    <option disabled selected value="">-- เลือก --</option>
-                                                    <option value="user">ผู้ใช้งานทั่วไป</option>
-                                                    <option value="admin">Admin</option>
-                                                </select>
-                                            </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="form-group row">
+                                        <label for="inputPassword3" class="col-sm-3 col-form-label">สิทธิ์ผู้ใช้งาน : <span class="text-danger">*</span></label>
+                                        <div class="col-sm-9">
+                                            <select class="form-control" id="role_emp" name="role_emp">
+                                                <option disabled selected value="">-- เลือก --</option>
+                                                <option value="user">ผู้ใช้งานทั่วไป</option>
+                                                <option value="admin">Admin</option>
+                                            </select>
                                         </div>
                                     </div>
-
-                                    <div class="col-md-8">
-                                        <div class="form-group row">
-                                            <label for="inputPassword3" class="col-sm-3 col-form-label">Username : </label>
-                                            <div class="col-sm-9">
-                                                <input type="text" autocomplete="yes" class="form-control" id="editusername" name="editusername" placeholder="Username">
-                                            </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="form-group row">
+                                        <label for="inputPassword3" class="col-sm-3 col-form-label">Username : </label>
+                                        <div class="col-sm-9">
+                                            <input type="text" autocomplete="yes" class="form-control" id="username" name="username" placeholder="Username">
                                         </div>
                                     </div>
-                                    <div class="col-md-8">
-                                        <div class="form-group row">
-                                            <label for="inputPassword3" class="col-sm-3 col-form-label">Password : </label>
-                                            <div class="col-sm-9">
-                                                <input type="text" autocomplete="yes" class="form-control" id="editpassword" name="editpassword" placeholder="Password">
-                                            </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="form-group row">
+                                        <label for="inputPassword3" class="col-sm-3 col-form-label">Password : </label>
+                                        <div class="col-sm-9">
+                                            <input type="text" autocomplete="yes" class="form-control" id="password" name="password" placeholder="Password">
                                         </div>
                                     </div>
-
-
                                 </div>
 
 
                             </div>
-                            <div class="modal-footer justify-content-center">
-                                <input type="hidden" id="editId" name="editId" value="">
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fas fa-save"></i>
-                                    บันทึกการแก้ไข
-                                </button>
-                                <button type="button" class="btn btn-default" data-dismiss="modal">
-                                    <i class="fas fa-times delete-row"></i>
-                                    ยกเลิก
-                                </button>
 
+
+                        </div>
+                        <div class="modal-footer justify-content-center">
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" id="checkAdd" class="custom-control-input">
+                                <label class="custom-control-label" for="checkAdd">เพิ่มรายชื่ออื่นๆ ต่อ</label>
                             </div>
-                        </form>
-                    </div>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i>
+                                บันทึก
+                            </button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">
+                                <i class="fas fa-times delete-row"></i>
+                                ยกเลิก
+                            </button>
+
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
-        <!-- จบแก้ไขข้อมูล -->
-        <!-- confrom การลบข้อมูล -->
-        <div class="modal fade" id="modal-confirmDel">
+        <!-- จบเพิ่มข้อมุล -->
+        <!-- แก้ไขข้อมูล -->
+        <div class="modal fade" id="modal-edit">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <form class="form-horizontal" id="editemployeeForm">
+                        <div class="modal-header">
+                            <h4 class="modal-title">
+                                <i class="fa fa-edit"></i>
+                                แก้ไขข้อมูลพนักงาน
+                            </h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row justify-content-center">
+                                <div class="col-md-8">
+                                    <div class="form-group row">
+                                        <label for="inputEmail3" class="col-sm-3 col-form-label">รหัสพนักงาน : <span class="text-danger">*</span></label>
+                                        <div class="col-sm-9">
+                                            <input type="text" autocomplete="yes" class="form-control" id="editempid" name="editempid" placeholder="รหัสพนักงาน">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="form-group row">
+                                        <label for="inputPassword3" class="col-sm-3 col-form-label">ชื่อ : <span class="text-danger">*</span></label>
+                                        <div class="col-sm-9">
+                                            <input type="text" autocomplete="yes" class="form-control" id="editfname" name="editfname" placeholder="ชื่อ">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="form-group row">
+                                        <label for="inputEmail3" class="col-sm-3 col-form-label">นามสกุล : <span class="text-danger">*</span></label>
+                                        <div class="col-sm-9">
+                                            <input type="text" autocomplete="yes" class="form-control" id="editlname" name="editlname" placeholder="นามสกุล">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="form-group row">
+                                        <label for="inputPassword3" class="col-sm-3 col-form-label">แผนก : <span class="text-danger">*</span></label>
+                                        <div class="col-sm-9">
+                                            <?php
+                                            $connect->sql = "SELECT * FROM depart WHERE status=1";
+                                            $connect->queryData();
+                                            ?>
+                                            <select class="form-control select2" id="editdepart" name="editdepart">
+                                                <option disabled selected value="">-- เลือก --</option>
+                                                <?php
+                                                while ($rsconnect = $connect->fetch_AssocData()) {
+                                                ?>
+                                                    <option value="<?= $rsconnect['id'] ?>"><?php echo $rsconnect['departname'] ?></option>
+                                                <?php
+                                                }
+                                                ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="form-group row">
+                                        <label for="inputPassword3" class="col-sm-3 col-form-label">สิทธิ์ผู้ใช้งาน : <span class="text-danger">*</span></label>
+                                        <div class="col-sm-9">
+                                            <select class="form-control select2" id="editrole_emp" name="editrole_emp">
+                                                <option disabled selected value="">-- เลือก --</option>
+                                                <option value="user">ผู้ใช้งานทั่วไป</option>
+                                                <option value="admin">Admin</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-8">
+                                    <div class="form-group row">
+                                        <label for="inputPassword3" class="col-sm-3 col-form-label">Username : </label>
+                                        <div class="col-sm-9">
+                                            <input type="text" autocomplete="yes" class="form-control" id="editusername" name="editusername" placeholder="Username">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="form-group row">
+                                        <label for="inputPassword3" class="col-sm-3 col-form-label">Password : </label>
+                                        <div class="col-sm-9">
+                                            <input type="text" autocomplete="yes" class="form-control" id="editpassword" name="editpassword" placeholder="Password">
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+                        <div class="modal-footer justify-content-center">
+                            <input type="hidden" id="editId" name="editId" value="">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i>
+                                บันทึกการแก้ไข
+                            </button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">
+                                <i class="fas fa-times delete-row"></i>
+                                ยกเลิก
+                            </button>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- จบแก้ไขข้อมูล -->
+    <!-- confrom การลบข้อมูล -->
+    <div class="modal fade" id="modal-confirmDel">
         <div class="modal-dialog modal-sm">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title">ยืนยันการลบข้อมูล</h4>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">ยืนยันการลบข้อมูล</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>ยืนยันการลบ</p>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" id="delId" onclick="del()" class="btn btn-primary">ยืนยัน</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">ยกเลิก</button>
+
+                </div>
             </div>
-            <div class="modal-body">
-              <p></p>
-            </div>
-            <div class="modal-footer justify-content-center">
-              <button type="button" class="btn btn-default" data-dismiss="modal">ลบ</button>
-              <button type="button" class="btn btn-primary">ยืนยัน</button>
-            </div>
-          </div>
-          <!-- /.modal-content -->
+            <!-- /.modal-content -->
         </div>
         <!-- /.modal-dialog -->
-      </div>
-        <?php include('menu/script.php') ?>
+    </div>
+    <?php include('menu/script.php') ?>
 </body>
-
+<style>
+    .dataTables_paginate.paging_simple_numbers {
+        float: right;
+    }
+</style>
 <script src="asset/plugins/select2/js/select2.full.min.js"></script>
 <script src="asset/plugins/jquery-validation/jquery.validate.min.js"></script>
 <script src="asset/plugins/sweetalert2/sweetalert2.min.js"></script>
-
 <script src="asset/plugins/toastr/toastr.min.js"></script>
+<script src="asset/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- DataTables  & Plugins -->
+<script src="asset/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="asset/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="asset/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="asset/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="asset/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="asset/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
 
 <script>
     $(function() {
-        //Initialize Select2 Elements
         $('.select2').select2();
-        loadDataemploy()
+        loadDataemploy();
+
     })
+
+   
+    $("#searchEmploy").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#tbDataEmploy tbody tr").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+        });
+    });
     var Toast = Swal.mixin({
         toast: true,
         position: 'top-end',
@@ -519,7 +482,6 @@ $connect->connectData();
             success: function(response) {
                 var tbDataEmploy = '';
                 $.each(response, function(index, item) {
-                    console.log(item)
                     data_approve = '';
                     tbDataEmploy += `<tr>
                         <td class="text-center">${index+1}.</td>
@@ -537,7 +499,19 @@ $connect->connectData();
                         </td>
                     </tr>`
                 });
+                
                 $('#tbDataEmploy tbody').html(tbDataEmploy);
+                $("#tbDataEmploy").DataTable({
+                    "paging": true,
+                    "lengthChange": false,
+                    "searching": false,
+                    "ordering": true,
+                    "info": true,
+                    "autoWidth": false,
+                    "responsive": true,
+                });
+
+
 
             },
             error: function(error) {
@@ -636,17 +610,6 @@ $connect->connectData();
         $('#editpassword').val(item.password)
     }
 
-    function loadFile(input) {
-        var imageProduct = document.getElementById('imageProduct');
-        if (input.files && input.files[0]) {
-            imageProduct.src = URL.createObjectURL(input.files[0]);
-            imageProduct.onload = function() {
-                URL.revokeObjectURL(imageProduct.src); // free memory
-            }
-        } else {
-            imageProduct.src = ''; // Clear the image source if no file is selected
-        }
-    }
     $('#editemployeeForm').validate({
         rules: {
             editempid: {
@@ -720,6 +683,25 @@ $connect->connectData();
         }
 
     });
+
+    //ลบข้อมูล
+
+    function confirmDel(objId) {
+        $('#delId').val(objId)
+
+    }
+
+    function del() {
+        var id = $('#delId').val();
+        $.ajax({
+            url: "services/employee/data.php?v=delemp&id=" + id,
+            success: function(response) {
+                loadDataemploy();
+                $('#modal-confirmDel').modal('hide');
+                toastr.success('ลบข้อมูลแล้วครับ.')
+            }
+        });
+    }
 </script>
 
 
