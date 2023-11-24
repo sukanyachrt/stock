@@ -32,9 +32,9 @@ if ($data == "insertEmp") {
 
 else if ($data == "editemp") {
     $emp = $_POST;
-    $connect->sql = "UPDATE employees SET  username='".$emp['editusername']."',fname='".$emp['editfname']."',lname='".$emp['editlname']."',    empid='".$emp['editempid']."',    depart='".$emp['editdepart']."', role_emp='".$emp['editrole_emp']."'  WHERE id ='".$emp['editId']."'";
+    $connect->sql = "UPDATE employees SET  username='".$emp['editusername']."',fname='".$emp['editfname']."',lname='".$emp['editlname']."',    empid='".$emp['editempid']."',    depart='".$emp['editdepart']."', role_emp='".$emp['editrole_emp']."',password='".$emp['editpassword']."'  WHERE id ='".$emp['editId']."'";
     $connect->queryData();
-    echo json_encode(1);
+    echo json_encode($emp);
 }
 
 else if ($data == "delemp") {

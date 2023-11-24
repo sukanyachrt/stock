@@ -346,7 +346,7 @@ $connect->connectData();
                                             $connect->sql = "SELECT * FROM depart WHERE status=1";
                                             $connect->queryData();
                                             ?>
-                                            <select class="form-control select2" id="editdepart" name="editdepart">
+                                            <select class="form-control" id="editdepart" name="editdepart">
                                                 <option disabled selected value="">-- เลือก --</option>
                                                 <?php
                                                 while ($rsconnect = $connect->fetch_AssocData()) {
@@ -363,7 +363,7 @@ $connect->connectData();
                                     <div class="form-group row">
                                         <label for="inputPassword3" class="col-sm-3 col-form-label">สิทธิ์ผู้ใช้งาน : <span class="text-danger">*</span></label>
                                         <div class="col-sm-9">
-                                            <select class="form-control select2" id="editrole_emp" name="editrole_emp">
+                                            <select class="form-control" id="editrole_emp" name="editrole_emp">
                                                 <option disabled selected value="">-- เลือก --</option>
                                                 <option value="user">ผู้ใช้งานทั่วไป</option>
                                                 <option value="admin">Admin</option>
@@ -462,7 +462,7 @@ $connect->connectData();
 
     })
 
-   
+
     $("#searchEmploy").on("keyup", function() {
         var value = $(this).val().toLowerCase();
         $("#tbDataEmploy tbody tr").filter(function() {
@@ -499,8 +499,11 @@ $connect->connectData();
                         </td>
                     </tr>`
                 });
-                
+                var table = $('#tbDataEmploy').DataTable();
+                table.destroy();
                 $('#tbDataEmploy tbody').html(tbDataEmploy);
+
+               // $('#tbDataEmploy tbody').html(tbDataEmploy);
                 $("#tbDataEmploy").DataTable({
                     "paging": true,
                     "lengthChange": false,
@@ -600,6 +603,7 @@ $connect->connectData();
 
     //แก้ไข
     function modalEdit(item) {
+        console.log(item)
         $('#editId').val(item.id)
         $('#editempid').val(item.empid)
         $('#editfname').val(item.fname)

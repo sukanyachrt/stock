@@ -123,12 +123,12 @@
                                                     <div class="input-group-text px-2">ค้นหาข้อมูล </div>
                                                 </div>
 
-                                                <input type="text" class="form-control" autocomplete="yes" name="searchProduct" placeholder="ค้นหาข้อมูล">
-                                            </div>
+                                                <input type="text" class="form-control" autocomplete="yes" id="searchProduct" placeholder="ค้นหาข้อมูล">
+                                             </div>
                                         </div>
                                         <div class="col-sm-2">
                                             <div class="form-group">
-                                                <button type="button" class="btn btn-block btn-primary" data-toggle="modal" data-target="#modal-default">
+                                                <button type="button" class="btn btn-block btn-primary" data-toggle="modal" data-target="#modal-default" onclick="showAddProduct()">
                                                     <i class="fas fa-plus"></i>
                                                     เพิ่มสินค้า
                                                 </button>
@@ -213,7 +213,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
 
                             </div>
                         </div>
@@ -223,89 +223,102 @@
             <div class="modal fade" id="modal-default">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title">
-                                <i class="fas fa-plus"></i>
-                                เพิ่มข้อมูลสินค้า
-                            </h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="row">
-
-                                <div class="col-md-6">
-                                    <div class="form-group row">
-                                        <label for="inputEmail3" class="col-sm-4 col-form-label">รหัสบาร์โค้ด : <span class="text-danger">*</span></label>
-                                        <div class="col-sm-8">
-                                            <input type="text" autocomplete="yes" class="form-control" id="inputEmail3" placeholder="รหัสบาร์โค้ด">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group row">
-                                        <label for="inputPassword3" class="col-sm-3 col-form-label">ชื่อสินค้า : <span class="text-danger">*</span></label>
-                                        <div class="col-sm-9">
-                                            <input type="text" autocomplete="yes" class="form-control" id="inputPassword3" placeholder="ชื่อสินค้า">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group row">
-                                        <label for="inputEmail3" class="col-sm-4 col-form-label">ประเภทสินค้า : <span class="text-danger">*</span></label>
-                                        <div class="col-sm-8">
-                                            <input type="text" autocomplete="yes" class="form-control" id="inputEmail3" placeholder="รหัสบาร์โค้ด">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group row">
-                                        <label for="inputPassword3" class="col-sm-3 col-form-label">หน่วย : <span class="text-danger">*</span></label>
-                                        <div class="col-sm-9">
-                                            <input type="text" autocomplete="yes" class="form-control" id="inputPassword3" placeholder="หน่วย">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group row">
-                                        <label for="inputPassword3" class="col-sm-4 col-form-label">จำนวนสินค้า : <span class="text-danger">*</span></label>
-                                        <div class="col-sm-8">
-                                            <input type="text" autocomplete="yes" class="form-control" id="inputPassword3" placeholder="จำนวนสินค้า">
-                                        </div>
-                                    </div>
-                                </div>
-
-
+                        <form class="form-horizontal" id="productForm">
+                            <div class="modal-header">
+                                <h4 class="modal-title">
+                                    <i class="fas fa-plus"></i>
+                                    เพิ่มข้อมูลสินค้า
+                                </h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                             </div>
-                            <div class="row">
-                                <div class="col-md-6" style="align-content: center;">
-                                    <div class="card text-center">
-                                        <div class="card-body">
-                                            <img class="card-img-top" style="width: 150px;" id="imageProduct">
+                            <div class="modal-body">
+                                <div class="row">
+
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label for="inputEmail3" class="col-sm-4 col-form-label">รหัสบาร์โค้ด : </label>
+                                            <div class="col-sm-8">
+                                                <input type="text" autocomplete="yes" class="form-control" id="barcode" name="barcode" placeholder="รหัสบาร์โค้ด">
+                                            </div>
                                         </div>
-                                        <div class="card-body">
-                                            <div class="file btn btn-primary">
-                                                เพิ่มรุป
-                                                <input type="file" id="file" name="file" onchange="loadFile(this)" accept="image/*" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label for="inputEmail3" class="col-sm-4 col-form-label">รหัสสินค้า : <span class="text-danger">*</span></label>
+                                            <div class="col-sm-8">
+                                                <input type="text" autocomplete="yes" class="form-control" autoFocus=true id="productid" name="productid" placeholder="รหัสสินค้า">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label for="inputPassword3" class="col-sm-4 col-form-label">ชื่อสินค้า : <span class="text-danger">*</span></label>
+                                            <div class="col-sm-8">
+                                                <input type="text" autocomplete="yes" class="form-control" id="productname" name="productname" placeholder="ชื่อสินค้า">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label for="inputEmail3" class="col-sm-4 col-form-label">ประเภทสินค้า : <span class="text-danger">*</span></label>
+                                            <div class="col-sm-8">
+                                                <input type="text" autocomplete="yes" class="form-control" id="producttype" name="producttype" placeholder="รหัสบาร์โค้ด">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label for="inputPassword3" class="col-sm-4 col-form-label">หน่วย : <span class="text-danger">*</span></label>
+                                            <div class="col-sm-8">
+                                                <input type="text" autocomplete="yes" class="form-control" id="productunit" name="productunit" placeholder="หน่วย">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label for="inputPassword3" class="col-sm-4 col-form-label">จำนวนสินค้า : <span class="text-danger">*</span></label>
+                                            <div class="col-sm-8">
+                                                <input type="text" autocomplete="yes" class="form-control" id="productnumber" name="productnumber" placeholder="จำนวนสินค้า">
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6" style="align-content: center;">
+                                        <div class="card text-center">
+                                            <div class="card-body">
+                                                <img class="card-img-top" style="width: 150px;" id="productimage">
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="file btn btn-primary">
+                                                    เพิ่มรุป
+                                                    <input type="file" id="file" name="file" onchange="loadFile(this)" accept="image/*" />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+
                             </div>
-
-                        </div>
-                        <div class="modal-footer justify-center">
-                            <button type="button" class="btn btn-primary">
-                                <i class="fas fa-save"></i>
-                                บันทึก
-                            </button>
-                            <button type="button" class="btn btn-default" data-dismiss="modal">
-                                <i class="fas fa-times delete-row"></i>
-                                ยกเลิก
-                            </button>
-
-                        </div>
+                            <div class="modal-footer justify-center">
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" id="checkAdd" class="custom-control-input">
+                                    <label class="custom-control-label" for="checkAdd">เพิ่มสินค้าอื่นๆ ต่อ</label>
+                                </div>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save"></i>
+                                    บันทึก
+                                </button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">
+                                    <i class="fas fa-times delete-row"></i>
+                                    ยกเลิก
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -313,23 +326,118 @@
         <?php include('menu/script.php') ?>
 </body>
 
+<style>
+    .dataTables_paginate.paging_simple_numbers {
+        float: right;
+    }
+</style>
 <script src="asset/plugins/select2/js/select2.full.min.js"></script>
+<script src="asset/plugins/jquery-validation/jquery.validate.min.js"></script>
+<script src="asset/plugins/sweetalert2/sweetalert2.min.js"></script>
+<script src="asset/plugins/toastr/toastr.min.js"></script>
+<script src="asset/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- DataTables  & Plugins -->
+<script src="asset/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="asset/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="asset/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="asset/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="asset/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="asset/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
 
 <script>
     $(function() {
-        //Initialize Select2 Elements
-        $('.select2').select2()
-    })
+        $('.select2').select2();
+        $('#modal-default').on('shown.bs.modal', function() {
+            // Use a setTimeout to delay the focus
+              $('#barcode').focus();
+           
+        });
+    });
+    //เพิ่มข้อมูล
+    $('#productForm').validate({
+        rules: {
+            productid: {
+                required: true,
+            },
+            productname: {
+                required: true,
+            },
+            producttype: {
+                required: true,
+            },
+            productunit: {
+                required: true,
+            },
+            productnumber: {
+                required: true,
+            },
+
+        },
+        messages: {
+            productid: {
+                required: "โปรดกรอกรหัสสินค้า",
+
+            },
+            productname: {
+                required: "โปรดกรอกชื่อสินค้า",
+
+            },
+            producttype: {
+                required: "โปรดเลือกประเภทสินค้า",
+
+            },
+            productunit: {
+                required: "โปรดเลือกหน่วยสินค้า",
+
+            },
+            productnumber: {
+                required: "โปรดกรอกจำนวนสินค้า",
+
+            },
+
+
+        },
+        errorElement: 'span',
+        errorPlacement: function(error, element) {
+            error.addClass('invalid-feedback');
+            element.closest('.form-group').append(error);
+        },
+        highlight: function(element, errorClass, validClass) {
+            $(element).addClass('is-invalid');
+        },
+        unhighlight: function(element, errorClass, validClass) {
+            $(element).removeClass('is-invalid');
+        },
+        submitHandler: function(form) {
+
+            $.ajax({
+                type: 'POST',
+                url: "services/products/data.php?v=insertPro",
+                data: $(form).serialize(),
+                success: function(response) {
+                    if (!$('#checkAdd').is(':checked')) {
+                        $('#modal-default').modal('hide');
+                    }
+                    toastr.success('บันทึกข้อมูลแล้วครับ.')
+                    form.reset();
+                },
+                error: function(error) {
+                    console.log(error)
+                }
+            });
+        }
+
+    });
 
     function loadFile(input) {
         var imageProduct = document.getElementById('imageProduct');
         if (input.files && input.files[0]) {
             imageProduct.src = URL.createObjectURL(input.files[0]);
             imageProduct.onload = function() {
-                URL.revokeObjectURL(imageProduct.src); // free memory
+                URL.revokeObjectURL(imageProduct.src);
             }
         } else {
-            imageProduct.src = ''; // Clear the image source if no file is selected
+            imageProduct.src = '';
         }
     }
 </script>
