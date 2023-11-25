@@ -31,7 +31,7 @@ if ($data == "insertPro") {
     $connect->sql = "SELECT	products.id,	productid,	barcode,	productname,	imageproduct,	products.`status`,	typeproduct,	numproduct,	nametype,	nameunit,	unit 
     FROM	products
 	INNER JOIN units ON products.unit = units.id
-	INNER JOIN producttype ON products.typeproduct = producttype.id ORDER BY products.id asc";
+	INNER JOIN producttype ON products.typeproduct = producttype.id ORDER BY products.productname asc";
     $connect->queryData();
     while ($rsconnect = $connect->fetch_AssocData()) {
         array_push($result, $rsconnect);

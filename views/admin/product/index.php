@@ -4,8 +4,10 @@
 <link rel="stylesheet" href="asset/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
 <link rel="stylesheet" href="asset/dist/css/adminlte.min.css">
 <link rel="stylesheet" href="asset/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
-
 <link rel="stylesheet" href="asset/plugins/toastr/toastr.min.css">
+<link rel="stylesheet" href="asset/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="asset/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+  <link rel="stylesheet" href="asset/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
 <style>
     .file {
         position: relative;
@@ -149,7 +151,7 @@ $connect->connectData();
                                             <table class="table table-bordered" id="tbProducts">
                                                 <thead>
                                                     <tr>
-                                                        <th class="text-center">#</th>
+                                                        <th class="text-center">รูป</th>
                                                         <th class="text-center" style="width: 200px">บาร์โค้ด</th>
                                                         <th>รหัสสินค้า</th>
                                                         <th>ชื่อสินค้า</th>
@@ -483,7 +485,12 @@ $connect->connectData();
                 $.each(response, function(index, item) {
 
                     tbProducts += `<tr>
-                        <td class="text-center">${index+1}.</td>
+                        <td class="text-center">
+                        ${item.imageproduct !== undefined && item.imageproduct != null && item.imageproduct !== "" ? 
+                            `<img class="attachment-img img-md" src="data:image/png;base64,${item.imageproduct}" alt="Attachment Image">` : 
+                            ''
+                        }
+                        </td>
                         <td class="text-center">${item.barcode}</td>
                         <td>${item.productid}</td>
                         <td>${item.productname}</td>
@@ -502,6 +509,13 @@ $connect->connectData();
                 table.destroy();
                 $('#tbProducts tbody').html(tbProducts);
                 $("#tbProducts").DataTable({
+                    "order": [
+                        [1, 'asc'] 
+                    ],
+                    "columnDefs": [{
+                        "targets": 0, 
+                        "orderable": false 
+                    }],
                     "paging": true,
                     "lengthChange": false,
                     "searching": false,
@@ -587,7 +601,7 @@ $connect->connectData();
                     if (!$('#checkAdd').is(':checked')) {
                         $('#modal-product').modal('hide');
                     }
-                    
+
                     getProduct();
                     toastr.success('บันทึกข้อมูลแล้วครับ.')
                     form.reset();
@@ -770,6 +784,7 @@ $connect->connectData();
         $('#delId').val(objId)
 
     }
+
     function del() {
         var id = $('#delId').val();
         $.ajax({
