@@ -6,8 +6,8 @@
 <link rel="stylesheet" href="asset/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
 <link rel="stylesheet" href="asset/plugins/toastr/toastr.min.css">
 <link rel="stylesheet" href="asset/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-  <link rel="stylesheet" href="asset/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-  <link rel="stylesheet" href="asset/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+<link rel="stylesheet" href="asset/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+<link rel="stylesheet" href="asset/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
 <style>
     .file {
         position: relative;
@@ -15,6 +15,13 @@
     }
 
     #file {
+        position: absolute;
+        opacity: 0;
+        right: 0;
+        top: 0;
+    }
+
+    #editfile {
         position: absolute;
         opacity: 0;
         right: 0;
@@ -151,12 +158,12 @@ $connect->connectData();
                                             <table class="table table-bordered" id="tbProducts">
                                                 <thead>
                                                     <tr>
-                                                        <th class="text-center">รูป</th>
                                                         <th class="text-center" style="width: 200px">บาร์โค้ด</th>
                                                         <th>รหัสสินค้า</th>
                                                         <th>ชื่อสินค้า</th>
                                                         <th class="text-center">ประเภทสินค้า</th>
                                                         <th class="text-center">จำนวน</th>
+                                                        <th class="text-center">รูป</th>
                                                         <th class="text-center">สถานะ</th>
                                                         <th class="text-center">จัดการข้อมูล</th>
 
@@ -270,42 +277,6 @@ $connect->connectData();
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">
-                                                    หน่วย
-                                                </span>
-                                            </div>
-
-                                            <select id="multi-prepend-append" class="form-control select2-single">
-                                                <option></option>
-
-                                            </select>
-                                            <div class="input-group-append">
-                                                <div class="input-group-text btn btn-primary" data-toggle="modal" data-target="#modal-Unit">
-                                                    <i class="fas fa-plus"></i>
-
-                                                </div>
-                                            </div>
-
-                                        </div> -->
-
-                                    <!-- <div class="row">
-                                        <div class="col-md-6" style="align-content: center;">
-                                            <div class="card text-center">
-                                                <div class="card-body">
-                                                    <img class="card-img-top" style="width: 150px;" id="productimage">
-                                                </div>
-                                                <div class="card-body">
-                                                    <div class="file btn btn-primary">
-                                                        เพิ่มรูปสินค้า
-                                                        <input type="file" id="file" name="file" onchange="loadFile(this)" accept="image/*" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div> -->
-
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6" style="align-content: center;">
@@ -318,7 +289,7 @@ $connect->connectData();
                                             <div class="card-body">
                                                 <div class="file btn btn-primary">
                                                     เพิ่มรูปสินค้า
-                                                    <input type="file" id="file" name="file" onchange="loadFile(this)" accept="image/*" />
+                                                    <input type="file" id="file" name="file" onchange="loadFile(this,'add')" accept="image/*" />
                                                 </div>
                                             </div>
                                         </div>
@@ -328,8 +299,8 @@ $connect->connectData();
 
                             <div class="modal-footer justify-center">
                                 <div class="custom-control custom-switch">
-                                    <input type="checkbox" id="checkAdd" class="custom-control-input">
-                                    <label class="custom-control-label" for="checkAdd">เพิ่มสินค้าอื่นๆ ต่อ</label>
+                                    <input type="checkbox" id="editcheckAdd" class="custom-control-input">
+                                    <label class="custom-control-label" for="editcheckAdd">เพิ่มสินค้าอื่นๆ ต่อ</label>
                                 </div>
                                 <button type="submit" class="btn btn-primary">
                                     <i class="fas fa-save"></i>
@@ -345,84 +316,232 @@ $connect->connectData();
                 </div>
             </div>
         </div>
-        <!-- เพิ่มหน่วยนับ -->
-        <div class="modal fade" id="modal-Unit">
-            <div class="modal-dialog">
+
+        <!-- แก้ไขข้อมูล -->
+        <div class="modal fade" id="modal-edit">
+            <div class="modal-dialog modal-xl">
                 <div class="modal-content">
-                    <form id="UnitForm">
-                        <div class="modal-header bg-primary">
-                            <h4 class="modal-title">เพิ่มข้อมูล Unit</h4>
+                    <form class="form-horizontal" id="editproductForm">
+                        <div class="modal-header bg-warning">
+                            <h4 class="modal-title">
+                                <i class="fa fa-edit"></i>
+                                แก้ไขข้อมูลสินค้า
+                            </h4>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">ชื่อหน่วย :</label>
-                                <input type="text" autocomplete="yes" class="form-control" id="unitName" name="unitName" placeholder="ชื่อหน่วย">
+                            <div class="row justify-content-center">
+                                <div class="col-md-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">รหัสบาร์โค้ด</span>
+                                        </div>
+                                        <input type="text" autocomplete="yes" class="form-control" id="editbarcode" name="editbarcode" placeholder="รหัสบาร์โค้ด">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">รหัสสินค้า</span>
+                                        </div>
+                                        <input type="text" autocomplete="yes" class="form-control" autoFocus=true id="editproductid" name="editproductid" placeholder="รหัสสินค้า">
+                                    </div>
+
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">ชื่อสินค้า</span>
+                                        </div>
+                                        <input type="text" autocomplete="yes" class="form-control" id="editproductname" name="editproductname" placeholder="ชื่อสินค้า">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                ประเภทสินค้า
+                                            </span>
+                                        </div>
+
+                                        <select class="form-control" id="editproducttype" name="editproducttype">
+
+                                        </select>
+                                        <div class="input-group-append">
+                                            <div class="input-group-text btn btn-primary" data-toggle="modal" data-target="#modal-producttype">
+                                                <i class="fas fa-plus"></i>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">จำนวนสินค้า</span>
+                                        </div>
+                                        <input type="text" autocomplete="yes" class="form-control" id="editproductnumber" name="editproductnumber" placeholder="จำนวนสินค้า">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">
+                                                หน่วย
+                                            </span>
+                                        </div>
+                                        <select id="editproductunit" name="editproductunit" class="form-control">
+                                            <option></option>
+
+                                        </select>
+                                        <div class="input-group-append">
+                                            <div class="input-group-text btn btn-primary" data-toggle="modal" data-target="#modal-Unit">
+                                                <i class="fas fa-plus"></i>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6" style="align-content: center;">
+                                    <div class="card text-center">
+                                        <div class="card-body">
+                                            <img class="card-img-top" style="width: 150px;" id="editproductimage">
+                                            <input type="hidden" id="editbase64Image" name="editbase64Image" value="">
+
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="file btn btn-primary">
+                                                เพิ่มรูปสินค้า
+                                                <input type="file" id="editfile" name="editfile" onchange="loadFile(this,'edit')" accept="image/*" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">
+                                                สถานะ
+                                            </span>
+                                        </div>
+                                        <select id="editproductstatus" name="editproductstatus" class="form-control">
+                                            <option disabled selected value="">-- เลือก --</option>
+                                            <option value="1">ใช้งาน</option>
+                                            <option value="0">ไม่ใช้งาน</option>
+                                        </select>
+                                        <div class="input-group-append">
+                                            <div class="input-group-text btn btn-primary" data-toggle="modal" data-target="#modal-Unit">
+                                                <i class="fas fa-plus"></i>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="modal-footer justify-content-center">
-                            <button type="submit" class="btn btn-primary">เพิ่มข้อมูล</button>
-                            <button type="button" class="btn btn-default" data-dismiss="modal">ยกเลิก</button>
+                            <input type="hidden" id="editId" name="editId" value="">
+                            <button type="submit" class="btn btn-warning">
+                                <i class="fas fa-save"></i>
+                                บันทึกการแก้ไข
+                            </button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">
+                                <i class="fas fa-times delete-row"></i>
+                                ยกเลิก
+                            </button>
 
                         </div>
                     </form>
                 </div>
             </div>
         </div>
-        <!-- จบหน่วยนับ -->
-        <!-- เพิ่มประเภทสินค้า -->
-        <div class="modal fade" id="modal-producttype">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <form id="productTypeForm">
-                        <div class="modal-header bg-primary">
-                            <h4 class="modal-title">เพิ่มข้อมูลประเภทสินค้า</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">ชื่อประเภทสินค้า :</label>
-                                <input type="text" autocomplete="yes" class="form-control" id="nametype" name="nametype" placeholder="ชื่อประเภทสินค้า">
-                            </div>
-                        </div>
-                        <div class="modal-footer justify-content-center">
-                            <button type="submit" class="btn btn-primary">เพิ่มข้อมูล</button>
-                            <button type="button" class="btn btn-default" data-dismiss="modal">ยกเลิก</button>
+    </div>
+    <!-- จบแก้ไขข้อมูล -->
+    <!-- confrom การลบข้อมูล -->
+    <div class="modal fade" id="modal-confirmDel">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header bg-danger">
+                    <h4 class="modal-title">ยืนยันการลบข้อมูล</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>ยืนยันการลบ?</p>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" id="delId" onclick="del()" class="btn btn-danger">ยืนยัน</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">ยกเลิก</button>
 
-                        </div>
-                    </form>
                 </div>
             </div>
         </div>
-        <!-- จบการเพิ่มประเภทสินค้า -->
-        <!-- confrom การลบข้อมูล -->
-        <div class="modal fade" id="modal-confirmDel">
-            <div class="modal-dialog modal-sm">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">ยืนยันการลบข้อมูล</h4>
+    </div>
+    <!-- เพิ่มหน่วยนับ -->
+    <div class="modal fade" id="modal-Unit">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="UnitForm">
+                    <div class="modal-header bg-primary">
+                        <h4 class="modal-title">เพิ่มข้อมูล Unit</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p>ยืนยันการลบ</p>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">ชื่อหน่วย :</label>
+                            <input type="text" autocomplete="yes" class="form-control" id="unitName" name="unitName" placeholder="ชื่อหน่วย">
+                        </div>
                     </div>
                     <div class="modal-footer justify-content-center">
-                        <button type="button" id="delId" onclick="del()" class="btn btn-primary">ยืนยัน</button>
+                        <button type="submit" class="btn btn-primary">เพิ่มข้อมูล</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">ยกเลิก</button>
 
                     </div>
-                </div>
-                <!-- /.modal-content -->
+                </form>
             </div>
-            <!-- /.modal-dialog -->
         </div>
-        <?php include('menu/script.php') ?>
+    </div>
+    <!-- จบหน่วยนับ -->
+    <!-- เพิ่มประเภทสินค้า -->
+    <div class="modal fade" id="modal-producttype">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="productTypeForm">
+                    <div class="modal-header bg-primary">
+                        <h4 class="modal-title">เพิ่มข้อมูลประเภทสินค้า</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">ชื่อประเภทสินค้า :</label>
+                            <input type="text" autocomplete="yes" class="form-control" id="nametype" name="nametype" placeholder="ชื่อประเภทสินค้า">
+                        </div>
+                    </div>
+                    <div class="modal-footer justify-content-center">
+                        <button type="submit" class="btn btn-primary">เพิ่มข้อมูล</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">ยกเลิก</button>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- จบการเพิ่มประเภทสินค้า -->
+    <?php include('menu/script.php') ?>
 </body>
 
 <style>
@@ -485,17 +604,18 @@ $connect->connectData();
                 $.each(response, function(index, item) {
 
                     tbProducts += `<tr>
+                       
+                        <td class="text-center">${item.barcode}</td>
+                        <td>${item.productid}</td>
+                        <td>${item.productname}</td>
+                        <td class="text-center">${item.nametype}</td>
+                        <td class="text-center">${item.numproduct} ${item.nameunit}</td>
                         <td class="text-center">
                         ${item.imageproduct !== undefined && item.imageproduct != null && item.imageproduct !== "" ? 
                             `<img class="attachment-img img-md" src="data:image/png;base64,${item.imageproduct}" alt="Attachment Image">` : 
                             ''
                         }
                         </td>
-                        <td class="text-center">${item.barcode}</td>
-                        <td>${item.productid}</td>
-                        <td>${item.productname}</td>
-                        <td class="text-center">${item.nametype}</td>
-                        <td class="text-center">${item.numproduct} ${item.nameunit}</td>
                         <td class="text-center">
                             ${item.status==1 ? '<span class="badge bg-success">ใช้งาน</span>' : '<span class="badge bg-danger">ไม่ใช้งาน</span>'}
                         </td>
@@ -510,11 +630,11 @@ $connect->connectData();
                 $('#tbProducts tbody').html(tbProducts);
                 $("#tbProducts").DataTable({
                     "order": [
-                        [1, 'asc'] 
+                        [0, 'asc']
                     ],
                     "columnDefs": [{
-                        "targets": 0, 
-                        "orderable": false 
+                        "targets": 5,
+                        "orderable": false
                     }],
                     "paging": true,
                     "lengthChange": false,
@@ -614,25 +734,42 @@ $connect->connectData();
 
     });
 
-    function loadFile(input) {
+    function loadFile(input, type) {
         var imageProduct = document.getElementById('productimage');
         var base64ImageInput = document.getElementById('base64Image');
+
+        var editimageProduct = document.getElementById('editproductimage');
+        var editbase64ImageInput = document.getElementById('editbase64Image');
+
 
         if (input.files && input.files[0]) {
             // อ่านไฟล์รูปภาพ
             var reader = new FileReader();
 
             reader.onload = function(e) {
-                imageProduct.src = e.target.result;
-                var base64Image = e.target.result.split(',')[1];
-                base64ImageInput.value = base64Image;
+                if (type == 'add') {
+                    imageProduct.src = e.target.result;
+                    var base64Image = e.target.result.split(',')[1];
+                    base64ImageInput.value = base64Image;
+                } else if (type == 'edit') {
+                    editimageProduct.src = e.target.result;
+                    var base64Image = e.target.result.split(',')[1];
+                    editbase64ImageInput.value = base64Image;
+                }
+
 
             };
 
             reader.readAsDataURL(input.files[0]);
         } else {
-            imageProduct.src = '';
-            base64ImageInput.value = '';
+            if (type == 'add') {
+                imageProduct.src = '';
+                base64ImageInput.value = '';
+            } else {
+                editimageProduct.src = '';
+                editbase64ImageInput.value = '';
+            }
+
         }
     }
 
@@ -697,7 +834,9 @@ $connect->connectData();
                 $.each(response, function(index, item) {
                     productunit += `<option value=${item.id}>${item.nameunit}</option>`;
                 })
-                $('#productunit').html(productunit)
+                $('#productunit').html(productunit);
+                $('#editproductunit').html(productunit)
+
                 // $('#productunit').select2({
                 //     placeholder: "เลือกข้อมูล",
                 //     theme: 'bootstrap4',
@@ -770,7 +909,8 @@ $connect->connectData();
                 $.each(response, function(index, item) {
                     producttype += `<option value=${item.id}>${item.nametype}</option>`;
                 })
-                $('#producttype').html(producttype)
+                $('#producttype').html(producttype);
+                $('#editproducttype').html(producttype)
 
             },
             error: function(error) {
@@ -778,6 +918,109 @@ $connect->connectData();
             }
         });
     }
+
+    //แก้ไข
+    function modalEdit(item) {
+        console.log(item)
+        $('#editId').val(item.id)
+        $('#editbarcode').val(item.barcode)
+        $('#editproductid').val(item.productid)
+        $('#editproductname').val(item.productname)
+        $('#editproducttype').val(item.typeproduct)
+        $('#editproductnumber').val(item.numproduct)
+        $('#editproductunit').val(item.unit);
+        $('#editproductstatus').val(item.status);
+        var imageProduct = document.getElementById('editproductimage');
+        var base64ImageInput = document.getElementById('editbase64Image');
+        if (item.imageproduct !== undefined && item.imageproduct != null && item.imageproduct !== "") {
+            imageProduct.src = `data:image/png;base64,${item.imageproduct}`
+            base64ImageInput.value = item.imageproduct
+        }
+
+    }
+
+    //เพิ่มข้อมูลสินค้า
+    $('#editproductForm').validate({
+        rules: {
+            editproductid: {
+                required: true,
+            },
+            editproductname: {
+                required: true,
+            },
+            editproducttype: {
+                required: true,
+            },
+            editproductunit: {
+                required: true,
+            },
+            editproductnumber: {
+                required: true,
+            },
+
+        },
+        messages: {
+            editproductid: {
+                required: "โปรดกรอกรหัสสินค้า",
+
+            },
+            editproductname: {
+                required: "โปรดกรอกชื่อสินค้า",
+
+            },
+            editproducttype: {
+                required: "โปรดเลือกประเภทสินค้า",
+
+            },
+            editproductunit: {
+                required: "โปรดเลือกหน่วยสินค้า",
+
+            },
+            editproductnumber: {
+                required: "โปรดกรอกจำนวนสินค้า",
+
+            },
+
+
+        },
+        errorElement: 'span',
+        errorPlacement: function(error, element) {
+            error.addClass('invalid-feedback');
+            element.closest('.form-group').append(error);
+        },
+        highlight: function(element, errorClass, validClass) {
+            $(element).addClass('is-invalid');
+        },
+        unhighlight: function(element, errorClass, validClass) {
+            $(element).removeClass('is-invalid');
+        },
+        submitHandler: function(form) {
+            var base64Image = $('#editbase64Image').val()
+            var formData = new FormData(form);
+            formData.append('editbase64Image', base64Image);
+            $.ajax({
+                type: 'POST',
+                url: "services/products/data.php?v=updatePro",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    console.log(response)
+                    if (!$('#editcheckAdd').is(':checked')) {
+                        $('#modal-edit').modal('hide');
+                    }
+
+                    getProduct();
+                    toastr.success('บันทึกการแก้ไขข้อมูลแล้วครับ.')
+                    form.reset();
+                },
+                error: function(error) {
+                    console.log(error)
+                }
+            });
+        }
+
+    });
 
     //ลบข้อมูล
     function confirmDel(objId) {

@@ -45,3 +45,20 @@ else if ($data=='delproduct'){
     $connect->queryData();
     echo json_encode(1);
 }
+else if ($data=='updatePro'){
+    $product=$_POST;
+     $connect->sql = "UPDATE `products` SET 
+     `productid`='".$product['editproductid']."',
+     `barcode`='".$product['editbarcode']."',
+     `productname`='".$product['editproductname']."',
+     `unit`='".$product['editproductunit']."',
+     `imageproduct`='".$product['editbase64Image']."',
+     `typeproduct`='".$product['editproducttype']."',
+     `numproduct`='".$product['editproductnumber']."',
+     `status`='".$product['editproductstatus']."',
+     `nameinsert`='nameinsert',
+     `dateupdate`='".date('Y-m-d H:i:s')."'
+      WHERE id='".$product['editId']."'";
+     $connect->queryData();
+    echo json_encode($_POST);
+}

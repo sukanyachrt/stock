@@ -4,8 +4,10 @@
 <link rel="stylesheet" href="asset/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
 <link rel="stylesheet" href="asset/dist/css/adminlte.min.css">
 <link rel="stylesheet" href="asset/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
-
 <link rel="stylesheet" href="asset/plugins/toastr/toastr.min.css">
+<link rel="stylesheet" href="asset/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="asset/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+<link rel="stylesheet" href="asset/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
 <style>
     .file {
         position: relative;
@@ -125,24 +127,21 @@ $connect->connectData();
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="form-group col-sm-10">
+                                        <div class="form-group col-sm-12">
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
                                                     <div class="input-group-text px-2">ค้นหาข้อมูล </div>
                                                 </div>
-
                                                 <input type="text" class="form-control" autocomplete="yes" id="searchEmploy" name="searchEmploy" placeholder="ค้นหาข้อมูล">
+                                                <div class="input-group-append">
+                                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-default"><i class="fas fa-plus"></i>
+                                                        เพิ่มข้อมูล</button>
+                                                </div>
+                                               
                                             </div>
+                                           
                                         </div>
-                                        <div class="col-sm-2">
-                                            <div class="form-group">
-                                                <button type="button" class="btn btn-block btn-primary" data-toggle="modal" data-target="#modal-default">
-                                                    <i class="fas fa-plus"></i>
-                                                    เพิ่มข้อมูล
-                                                </button>
-
-                                            </div>
-                                        </div>
+                                        
                                     </div>
                                     <div class="row">
                                         <div class="col-12">
@@ -150,12 +149,12 @@ $connect->connectData();
                                                 <thead>
                                                     <tr>
                                                         <th style="width: 10px" class="text-center">#</th>
-                                                        <th class="text-center" style="width: 200px">รหัสพนักงาน</th>
+                                                        <th class="text-center">รหัสพนักงาน</th>
                                                         <th>ชื่อ-สกุล</th>
-                                                        <th class="text-center" style="width: 150px">แผนก</th>
-                                                        <th class="text-center" style="width: 150px">Username</th>
-                                                        <th class="text-center" style="width: 150px">สถานะ</th>
-                                                        <th class="text-center" style="width: 150px">จัดการข้อมูล</th>
+                                                        <th class="text-center">แผนก</th>
+                                                        <th class="text-center">Username</th>
+                                                        <th class="text-center">สถานะ</th>
+                                                        <th class="text-center">จัดการข้อมูล</th>
 
                                                     </tr>
                                                 </thead>
@@ -303,7 +302,7 @@ $connect->connectData();
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <form class="form-horizontal" id="editemployeeForm">
-                        <div class="modal-header">
+                        <div class="modal-header bg-primary">
                             <h4 class="modal-title">
                                 <i class="fa fa-edit"></i>
                                 แก้ไขข้อมูลพนักงาน
@@ -416,7 +415,7 @@ $connect->connectData();
     <div class="modal fade" id="modal-confirmDel">
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header bg-primary">
                     <h4 class="modal-title">ยืนยันการลบข้อมูล</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -494,8 +493,8 @@ $connect->connectData();
                         </td>
                         </td>
                         <td class="text-center">
-                            <button type="button" onclick="modalEdit(${JSON.stringify(item).replace(/"/g, '&quot;')})" data-toggle="modal" data-target="#modal-edit" class="btn btn-warning btn-sm"> <i class="fa fa-edit"></i>แก้ไข</button>
-                            <button type="button" data-toggle="modal" data-target="#modal-confirmDel"  onclick="confirmDel(${item.id})" class="btn btn-danger btn-sm"> <i class="fas fa-times delete-row"></i> ลบ</button>
+                            <button type="button" onclick="modalEdit(${JSON.stringify(item).replace(/"/g, '&quot;')})" data-toggle="modal" data-target="#modal-edit" class="btn btn-warning btn-sm"> <i class="fa fa-edit"></i></button>
+                            <button type="button" data-toggle="modal" data-target="#modal-confirmDel"  onclick="confirmDel(${item.id})" class="btn btn-danger btn-sm"> <i class="fas fa-times delete-row"></i></button>
                         </td>
                     </tr>`
                 });
@@ -503,7 +502,7 @@ $connect->connectData();
                 table.destroy();
                 $('#tbDataEmploy tbody').html(tbDataEmploy);
 
-               // $('#tbDataEmploy tbody').html(tbDataEmploy);
+                // $('#tbDataEmploy tbody').html(tbDataEmploy);
                 $("#tbDataEmploy").DataTable({
                     "paging": true,
                     "lengthChange": false,
