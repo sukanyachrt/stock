@@ -181,7 +181,7 @@
                   </div>
                 </div>
                 <div class="card-footer text-center">
-                  <button type="button" class="btn btn-primary">
+                  <button type="button" class="btn btn-primary" onclick="confirmWithdraw()">
                     <i class="fas fa-save"></i>
                     บันทึกข้อมูล
                   </button>
@@ -243,7 +243,61 @@
           </div>
         </div>
       </div>
-      <!-- confrom การลบข้อมูล -->
+      <!-- show result การเบิกของ -->
+      <div class="modal fade" id="modal-showResult">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <form class="form-horizontal" id="withdrawproductForm">
+              <div class="modal-header bg-primary">
+                <h4 class="modal-title">ข้อมูลรายละเอียดการเบิก-คืนสินค้า</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="row justify-content-center">
+                  <div class="col-12">
+                    <div class="input-group mb-3">
+                      <div class="input-group-append">
+                        <span class="input-group-text">
+                          ประเทการเบิก-คืน
+                        </span>
+                      </div>
+                      <select id="typewithdraw" name="typewithdraw" class="form-control">
+                        <option disabled selected value="">-- เลือก --</option>
+                        <option value="1">เบิกสินค้า</option>
+                        <option value="0">คืนสินค้า</option>
+                      </select>
+                    </div>
+
+                  </div>
+                  <div class="col-12">
+                    <div class="input-group mb-3">
+                      <div class="input-group-append">
+                        <span class="input-group-text">
+                          ชื่อผู้เบิกของ
+                        </span>
+                      </div>
+                      <input type="text" autocomplete="yes" class="form-control" id="namewithdraw" name="namewithdraw" placeholder="ชื่อผู้เบิกของ">
+
+
+                    </div>
+                  </div>
+
+                </div>
+               
+              </div>
+              <div class="modal-footer justify-content-center">
+                <button type="submit" class="btn btn-primary">ยืนยันการเบิกของ</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">ยกเลิก</button>
+
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- confrom ผลการค้นหา -->
       <div class="modal fade" id="modal-Alertdata">
         <div class="modal-dialog modal-sm">
           <div class="modal-content">
@@ -272,7 +326,7 @@
 
     <?php include('script.php') ?>
 </body>
-
+<script src="asset/plugins/jquery-validation/jquery.validate.min.js"></script>
 <script src="asset/plugins/select2/js/select2.full.min.js"></script>
 <script src="asset/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="asset/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
@@ -287,6 +341,7 @@
     $('#textsearchproduct').focus();
 
   });
+
   const textsearch = document.querySelector('#textsearch');
   textsearch.addEventListener('input', function(event) {
     var value = $(this).val().trim();
@@ -298,6 +353,7 @@
   const table = new DataTable('#tbProducts');
   let numrow = 1;
 
+  //ค้นหาข้อมูลจาก barcode เพื่อใส่ลงในการเบิกของ
   function getProductByBarcode(objBarcode) {
     var barcode = objBarcode;
 
@@ -346,7 +402,7 @@
 
 
 
-  //ข้อมูลสินค้า
+  //ข้อมูลสินค้าลงในตาราง
   function getProduct() {
     $.ajax({
       type: 'GET',
@@ -396,6 +452,7 @@
     $('#modal-searchproduct').modal('hide');
   });
 
+  //เบิกของจากการคลิกตาราง
   function addProductToTable(productId) {
     console.log(productId)
     var existingRow = $(`#tbProducts #row_${productId}`);
@@ -449,12 +506,12 @@
   }
 
 
-
+  // ลบข้อมูลจาก table เบิกคืน
   function deleteRow(itemId) {
     table.row(`#row_${itemId}`).remove().draw();
     updateNumrow();
   }
-
+  // อัพเดทเลขแถวในตาราง table เบิกคืน
   function updateNumrow() {
     $('#tbProducts tbody tr').each(function(index) {
       $(this).find('td:first').text(index + 1);
@@ -488,14 +545,85 @@
         // ทำการค้นหาในทุกคอลัมน์
         for (var i = 0; i < data.length; i++) {
           if (data[i].toLowerCase().includes(value.toLowerCase())) {
-            return true; // ค้นพบข้อมูลที่ตรงกับคำค้นหา
+            return true;
           }
         }
-        return false; // ไม่พบข้อมูลที่ตรงกับคำค้นหา
+        return false;
       });
     }
 
     listproduct.draw();
+  });
+
+  //ยืนยันการเบิกของ
+  function confirmWithdraw() {
+    var allInputs = $('#tbProducts tbody tr input[type="number"]');
+
+    // ตรวจสอบว่าพบหรือไม่
+    if (allInputs.length > 0) {
+      $('#tbProducts tbody tr').each(function(index) {
+        var rowId = $(this).attr('id');
+        var rowIdParts = rowId.split("row_");
+        var rowNumber = rowIdParts[1];
+        var inputValue = $(this).find('input[type="number"]').val();
+        console.log('Row ID:', rowNumber, 'Input Value:', inputValue);
+        if (index == allInputs.length - 1) {
+          $('#modal-showResult').modal('show');
+        }
+
+      });
+
+    } else {
+      $('#resultBarcode').text(`คุณยังไม่ได้คีย์เบิก-คืนสินค้าครับ !!`)
+      $('#modal-Alertdata').modal('show');
+
+    }
+  }
+
+  $('#withdrawproductForm').validate({
+    rules: {
+      typewithdraw: {
+        required: true,
+      },
+      namewithdraw: {
+        required: true,
+      },
+    },
+    messages: {
+      typewithdraw: {
+        required: "โปรดเลือกประเภทการเบิก-คืนสินค้า",
+      },
+      namewithdraw: {
+        required: "โปรดกรอกชื่อผู้เบิก-คืนของ",
+      },
+    },
+    errorElement: 'span',
+    errorPlacement: function(error, element) {
+      error.addClass('invalid-feedback');
+      element.closest('.form-group').append(error);
+    },
+    highlight: function(element, errorClass, validClass) {
+      $(element).addClass('is-invalid');
+    },
+    unhighlight: function(element, errorClass, validClass) {
+      $(element).removeClass('is-invalid');
+    },
+    submitHandler: function(form) {
+      $.ajax({
+        type: 'POST',
+        url: "services/withdraws/data.php?v=withdrawsProduct",
+        data: $(form).serialize(),
+        success: function(response) {
+          console.log(response)
+
+        },
+        error: function(error) {
+          console.log(error)
+        }
+      });
+
+    }
+
   });
 </script>
 
