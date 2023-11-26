@@ -122,7 +122,7 @@ $connect->connectData();
                                 <div class="card-header">
                                     <h3 class="card-title">
                                         <i class="fas fa-users"></i>
-                                        ข้อมูลสินค้า
+                                        ข้อมูลพนักงาน
                                     </h3>
                                 </div>
                                 <div class="card-body">

@@ -124,7 +124,6 @@ $connect->connectData();
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-12">
-                            <!-- general form elements -->
                             <div class="card card-primary card-outline">
                                 <div class="card-header">
                                     <h3 class="card-title">
@@ -134,25 +133,24 @@ $connect->connectData();
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="form-group col-sm-10">
+                                        <div class="form-group col-sm-12">
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
-                                                    <div class="input-group-text px-2">ค้นหาข้อมูล </div>
+                                                    <div class="input-group-text px-2">ค้นหาข้อมูล</div>
+                                                </div>
+                                                <input type="text" class="form-control" autocomplete="yes" id="textsearch" name="textsearch" placeholder="ค้นหาข้อมูล">
+
+                                                <div class="input-group-append">
+                                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-product"><i class="fas fa-plus"></i>
+                                                        เพิ่มข้อมูล</button>
                                                 </div>
 
-                                                <input type="text" class="form-control" autocomplete="yes" id="searchProduct" placeholder="ค้นหาข้อมูล">
                                             </div>
-                                        </div>
-                                        <div class="col-sm-2">
-                                            <div class="form-group">
-                                                <button type="button" class="btn btn-block btn-primary" data-toggle="modal" data-target="#modal-product">
-                                                    <i class="fas fa-plus"></i>
-                                                    เพิ่มสินค้า
-                                                </button>
 
-                                            </div>
                                         </div>
+
                                     </div>
+
                                     <div class="row">
                                         <div class="col-12 table-responsive p-0">
                                             <table class="table table-bordered" id="tbProducts">
@@ -170,8 +168,6 @@ $connect->connectData();
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-
-
                                                 </tbody>
                                             </table>
                                         </div>
@@ -558,6 +554,9 @@ $connect->connectData();
         height: 100% !important;
         line-height: inherit !important;
     }
+    .dataTables_filter{
+        display: none;
+    }
 </style>
 <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/js/select2.full.js"></script>
 
@@ -593,18 +592,61 @@ $connect->connectData();
         showConfirmButton: false,
         timer: 3000
     });
+    $('#textsearch').focus()
+    const textsearch = document.querySelector('#textsearch');
+
+    const table = new DataTable('#tbProducts')
+
+    textsearch.addEventListener('input', function() {
+        table.draw();
+    });
+
+    let isModalOpen = false;
+
+    textsearch.addEventListener('input', function(event) {
+        var value = $(this).val().trim();
+        var isNumeric = !isNaN(value);
+
+        DataTable.ext.search.pop();
+        DataTable.ext.search.push(function(settings, data, dataIndex) {
+            const searchText = value.toLowerCase();
+            const rowData = data.join(' ').toLowerCase();
+            const found = rowData.includes(searchText);
+
+            if (found && isNumeric) {
+                if (!isModalOpen && value.length === 13) {
+                    const rowId = $('#tbProducts').DataTable().row(dataIndex).node().id;
+                    getProductById(rowId);
+                }
+            } else {
+                if (isModalOpen && value.length < 13) {
+                    $("#modal-edit").modal("hide");
+                    isModalOpen = false;
+                }
+            }
+
+            return found;
+        });
+
+        table.draw();
+    });
+
+
+  
+
+
 
     function getProduct() {
         $.ajax({
             type: 'GET',
             url: "services/products/data.php?v=searchProducts",
             success: function(response) {
-                console.log(response)
+
+                var table = $('#tbProducts').DataTable();
+                table.clear();
                 var tbProducts = '';
                 $.each(response, function(index, item) {
-
-                    tbProducts += `<tr>
-                       
+                    tbProducts += `<tr id="row_${item.id}">
                         <td class="text-center">${item.barcode}</td>
                         <td>${item.productid}</td>
                         <td>${item.productname}</td>
@@ -625,28 +667,27 @@ $connect->connectData();
                         </td>
                     </tr>`
                 });
-                var table = $('#tbProducts').DataTable();
-                table.destroy();
-                $('#tbProducts tbody').html(tbProducts);
-                $("#tbProducts").DataTable({
-                    "order": [
-                        [0, 'asc']
-                    ],
-                    "columnDefs": [{
-                        "targets": 5,
-                        "orderable": false
-                    }],
-                    "paging": true,
-                    "lengthChange": false,
-                    "searching": false,
-                    "ordering": true,
-                    "info": true,
-                    "autoWidth": false,
-                    "responsive": true,
-                });
+                table.rows.add($(tbProducts)).draw();
+                table.draw();
+
             },
             error: function(error) {
                 console.log(error)
+            }
+        });
+    }
+
+    function getProductById(objId) {
+        var originalString = objId;
+        var id = originalString.replace("row_", "");
+        $.ajax({
+            type: 'GET',
+            url: "services/products/data.php?v=searchProductsByID&id=" + id,
+            success: function(response) {
+                console.log(response)
+                modalEdit(response);
+                $("#modal-edit").modal("show");
+                isModalOpen = true;
             }
         });
     }
