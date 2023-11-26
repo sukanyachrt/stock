@@ -621,7 +621,7 @@ $connect->connectData();
                         </td>
                         <td class="text-center">
                             <button type="button" onclick="modalEdit(${JSON.stringify(item).replace(/"/g, '&quot;')})" data-toggle="modal" data-target="#modal-edit" class="btn btn-warning btn-sm"> <i class="fa fa-edit"></i></button>
-                            <button type="button" data-toggle="modal" data-target="#modal-confirmDel"  onclick="confirmDel(${item.id})" class="btn btn-danger btn-sm"> <i class="fas fa-times delete-row"></i></button>
+                            ${item.status==1 ? '<button type="button" data-toggle="modal" data-target="#modal-confirmDel"  onclick="confirmDel(' + item.id + ')" class="btn btn-danger btn-sm"> <i class="fas fa-times delete-row"></i></button>' : '<button type="button" class="btn btn-default btn-sm"> <i class="fas fa-times delete-row"></i></button>' }
                         </td>
                     </tr>`
                 });
