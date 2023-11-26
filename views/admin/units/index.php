@@ -8,31 +8,7 @@
 <link rel="stylesheet" href="asset/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
 <link rel="stylesheet" href="asset/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
 <link rel="stylesheet" href="asset/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
-<style>
-    .file {
-        position: relative;
-        overflow: hidden;
-    }
 
-    #file {
-        position: absolute;
-        opacity: 0;
-        right: 0;
-        top: 0;
-    }
-
-    #editfile {
-        position: absolute;
-        opacity: 0;
-        right: 0;
-        top: 0;
-    }
-</style>
-<?php
-include('./services/Connect_Data.php');
-$connect = new Connect_Data();
-$connect->connectData();
-?>
 
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
@@ -113,7 +89,7 @@ $connect->connectData();
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1 class="m-0">ข้อมูลหน่วยนับ</h1>
+                            <h1 class="m-0">หน่วยนับ</h1>
                         </div>
 
                     </div>

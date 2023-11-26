@@ -9,7 +9,7 @@ $result = array();
 if ($data == "insertProducttype") {
     $producttype = $_POST;
     $connect->sql = "INSERT INTO `producttype`(`nametype`, `status`) VALUES
-     ('".$producttype['nametype']."','1')";
+     ('" . $producttype['nametype'] . "','1')";
     $connect->queryData();
     echo json_encode($_POST);
 } else if ($data == "searchProducttype") {
@@ -19,4 +19,17 @@ if ($data == "insertProducttype") {
         array_push($result, $rsconnect);
     }
     echo json_encode($result);
+} else if ($data == "delproducttype") {
+    $id = $_GET['id'];
+    $connect->sql = "UPDATE producttype SET  status='0'  WHERE id ='" . $id . "'";
+    $connect->queryData();
+    echo json_encode(1);
+} else if ($data == "updateProducttype") {
+    $producttype = $_POST;
+    $connect->sql = "UPDATE `producttype` 
+     SET `nametype`='" . $producttype['editnametype'] . "',
+     `status`='" . $producttype['edittypestatus'] . "'
+     WHERE id='" . $producttype['editId'] . "'";
+    $connect->queryData();
+    echo json_encode($_POST);
 }
