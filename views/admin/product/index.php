@@ -295,8 +295,8 @@ $connect->connectData();
 
                             <div class="modal-footer justify-center">
                                 <div class="custom-control custom-switch">
-                                    <input type="checkbox" id="editcheckAdd" class="custom-control-input">
-                                    <label class="custom-control-label" for="editcheckAdd">เพิ่มสินค้าอื่นๆ ต่อ</label>
+                                    <input type="checkbox" id="checkAdd" class="custom-control-input">
+                                    <label class="custom-control-label" for="checkAdd">เพิ่มสินค้าอื่นๆ ต่อ</label>
                                 </div>
                                 <button type="submit" class="btn btn-primary">
                                     <i class="fas fa-save"></i>
@@ -1042,10 +1042,7 @@ $connect->connectData();
                 contentType: false,
                 success: function(response) {
                     console.log(response)
-                    if (!$('#editcheckAdd').is(':checked')) {
-                        $('#modal-edit').modal('hide');
-                    }
-
+                    
                     getProduct();
                     toastr.success('บันทึกการแก้ไขข้อมูลแล้วครับ.')
                     form.reset();

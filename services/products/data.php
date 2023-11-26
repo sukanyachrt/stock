@@ -37,43 +37,48 @@ if ($data == "insertPro") {
         array_push($result, $rsconnect);
     }
     echo json_encode($result);
-  
-}
+} else if ($data == "searchProductsByID") {
 
-else if($data=="searchProductsByID"){
-    
     $connect->sql = "SELECT	products.id,	productid,	barcode,	productname,	imageproduct,	products.`status`,	typeproduct,	numproduct,	nametype,	nameunit,	unit 
     FROM	products
 	INNER JOIN units ON products.unit = units.id
 	INNER JOIN producttype ON products.typeproduct = producttype.id
-    WHERE products.id='".$_GET['id']."'
+    WHERE products.id='" . $_GET['id'] . "'
     ORDER BY products.productname asc";
     $connect->queryData();
     $rsconnect = $connect->fetch_AssocData();
     array_push($result, $rsconnect);
     echo json_encode($result[0]);
-    
-}
-else if ($data=='delproduct'){
+} else if ($data == 'delproduct') {
     $id = $_GET['id'];
-    $connect->sql = "UPDATE products SET  status='0'  WHERE id ='".$id."'";
+    $connect->sql = "UPDATE products SET  status='0'  WHERE id ='" . $id . "'";
     $connect->queryData();
     echo json_encode(1);
-}
-else if ($data=='updatePro'){
-    $product=$_POST;
-     $connect->sql = "UPDATE `products` SET 
-     `productid`='".$product['editproductid']."',
-     `barcode`='".$product['editbarcode']."',
-     `productname`='".$product['editproductname']."',
-     `unit`='".$product['editproductunit']."',
-     `imageproduct`='".$product['editbase64Image']."',
-     `typeproduct`='".$product['editproducttype']."',
-     `numproduct`='".$product['editproductnumber']."',
-     `status`='".$product['editproductstatus']."',
+} else if ($data == 'updatePro') {
+    $product = $_POST;
+    $connect->sql = "UPDATE `products` SET 
+     `productid`='" . $product['editproductid'] . "',
+     `barcode`='" . $product['editbarcode'] . "',
+     `productname`='" . $product['editproductname'] . "',
+     `unit`='" . $product['editproductunit'] . "',
+     `imageproduct`='" . $product['editbase64Image'] . "',
+     `typeproduct`='" . $product['editproducttype'] . "',
+     `numproduct`='" . $product['editproductnumber'] . "',
+     `status`='" . $product['editproductstatus'] . "',
      `nameinsert`='nameinsert',
-     `dateupdate`='".date('Y-m-d H:i:s')."'
-      WHERE id='".$product['editId']."'";
-     $connect->queryData();
+     `dateupdate`='" . date('Y-m-d H:i:s') . "'
+      WHERE id='" . $product['editId'] . "'";
+    $connect->queryData();
     echo json_encode($_POST);
+} else if ($data == "searchProductsByBarcode") {
+    $connect->sql = "SELECT	products.id,	productid,	barcode,	productname,	imageproduct,	products.`status`,	typeproduct,	numproduct,	nametype,	nameunit,	unit 
+    FROM	products
+	INNER JOIN units ON products.unit = units.id
+	INNER JOIN producttype ON products.typeproduct = producttype.id
+    WHERE products.barcode='" . $_GET['barcode'] . "' AND products.`status`=1
+    ORDER BY products.productname asc";
+    $connect->queryData();
+    $rsconnect = $connect->fetch_AssocData();
+    array_push($result, $rsconnect);
+    echo json_encode($result[0]);
 }
