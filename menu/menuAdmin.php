@@ -8,10 +8,10 @@
  */
 function isActive($data)
 {
-    $array = explode('/', $_SERVER['REQUEST_URI']);
-    $key = array_search("stock", $array);
-    $name = $array[$key + 1];
-    return $name === $data ? 'active' : '';
+	$array = explode('/', $_SERVER['REQUEST_URI']);
+	$key = array_search("stock", $array);
+	$name = $array[$key + 1];
+	return $name === $data ? 'active' : '';
 }
 ?>
 <aside class="main-sidebar sidebar-light-primary elevation-4">
@@ -50,7 +50,7 @@ function isActive($data)
 			<ul class="nav nav-pills nav-sidebar flex-column " data-widget="treeview" role="menu" data-accordion="false">
 				<li class="nav-item">
 					<a href="admin" class="nav-link <?php echo isActive('admin') ?>">
-					<i class="nav-icon fas fa-tachometer-alt"></i>
+						<i class="nav-icon fas fa-tachometer-alt"></i>
 						<p>
 							dashboard
 
@@ -66,16 +66,42 @@ function isActive($data)
 						</p>
 					</a>
 				</li>
-				<li class="nav-item">
-					<a href="product" class="nav-link <?php echo isActive('product') ?>">
-					<i class="fas fa-barcode"></i>
+				<li class="nav-item menu-open">
+				<a href="#" class="nav-link <?php echo isActive('unit') || isActive('product') || isActive('producttype') ? 'active' : '' ?>">
+
+						<i class="nav-icon fas fa-table"></i>
 						<p>
 							จัดการข้อมูลสินค้า
-
+							<i class="fas fa-angle-left right"></i>
 						</p>
 					</a>
+					<ul class="nav nav-treeview">
+						<li class="nav-item">
+							<a href="product" class="nav-link <?php echo isActive('product') ?>">
+								<i class="fas fa-barcode nav-icon"></i>
+								<p>
+									ข้อมูลสินค้า
+
+								</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="producttype" class="nav-link <?php echo isActive('producttype') ?>">
+								<i class="far fa-circle nav-icon"></i>
+								<p>ข้อมูลประเภทสินค้า</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="unit" class="nav-link <?php echo isActive('unit') ?>">
+								<i class="far fa-circle nav-icon"></i>
+								<p>ข้อมูลหน่วยนับ</p>
+							</a>
+						</li>
+
+					</ul>
 				</li>
-				
+
+
 
 			</ul>
 		</nav>

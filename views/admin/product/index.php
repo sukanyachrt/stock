@@ -434,12 +434,7 @@ $connect->connectData();
                                             <option value="1">ใช้งาน</option>
                                             <option value="0">ไม่ใช้งาน</option>
                                         </select>
-                                        <div class="input-group-append">
-                                            <div class="input-group-text btn btn-primary" data-toggle="modal" data-target="#modal-Unit">
-                                                <i class="fas fa-plus"></i>
-
-                                            </div>
-                                        </div>
+                                       
                                     </div>
                                 </div>
                             </div>

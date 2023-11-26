@@ -20,3 +20,19 @@ if ($data == "insertUnit") {
     }
     echo json_encode($result);
 }
+
+else if ($data=='updateUnit'){
+     $unit=$_POST;
+     $connect->sql = "UPDATE `units` 
+      SET `nameunit`='".$unit['editunitName']."',
+      `status`='".$unit['editunitstatus']."'
+      WHERE id='".$unit['editId']."'";
+     $connect->queryData();
+     echo json_encode($_POST);
+}
+else if($data=="delunit"){
+    $id = $_GET['id'];
+    $connect->sql = "UPDATE units SET  status='0'  WHERE id ='".$id."'";
+    $connect->queryData();
+    echo json_encode(1);
+}

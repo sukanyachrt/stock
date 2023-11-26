@@ -45,6 +45,25 @@ class employee extends Controller
     }
 }
 
+class producttype extends Controller
+
+{
+    function __construct()
+    {
+        parent::__construct();
+        $this->view->render('admin/producttype/index');
+    }
+}
+
+class unit extends Controller
+{
+    function __construct()
+    {
+        parent::__construct();
+        $this->view->render('admin/units/index');
+    }
+}
+
 
 class notfound extends Controller
 {
