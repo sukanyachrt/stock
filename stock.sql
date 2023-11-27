@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 24, 2023 at 06:05 PM
+-- Generation Time: Nov 27, 2023 at 01:40 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -64,13 +64,13 @@ CREATE TABLE `employees` (
 --
 
 INSERT INTO `employees` (`id`, `username`, `password`, `fname`, `lname`, `empid`, `depart`, `status_emp`, `role_emp`) VALUES
-(1, '00001', '', 'กัญญา', 'รัตนเพชร์', '00001', 1, 1, '0'),
-(2, '', '', 'กิ่งดาว', 'ดารณี', '00002', 1, 1, 'admin'),
-(4, '', '', 'กชกร', 'ดารณี', '00003', 2, 1, 'admin'),
-(6, '00004', '', 'กุลณัฐ', 'กุลปรียาวัฒน์', '00004', 1, 1, 'admin'),
-(7, 'admin', '', 'admin', 'admin', '00005', 1, 1, 'admin'),
-(8, '00006', '', 'วรนุช', 'วงศ์สวรรค', '00006', 1, 0, 'admin'),
-(9, '', '', 'อาภาพร', 'นคร', '00008', 2, 0, 'admin');
+(1, '00001', '123456', 'กัญญา', 'รัตนเพชร์', '00001', 1, 1, 'user'),
+(2, '00002', '123456', 'กิ่งดาว', 'ดารณี', '00002', 1, 1, 'admin'),
+(4, '00003', '123456', 'กชกร', 'ดารณี', '00003', 2, 1, 'admin'),
+(6, '00004', '123456', 'กุลณัฐ', 'กุลปรียาวัฒน์', '00004', 1, 1, 'admin'),
+(7, 'admin', '123456', 'admin', 'admin', '00005', 1, 1, 'admin'),
+(8, '00006', '123456', 'วรนุช', 'วงศ์สวรรค', '00006', 1, 0, 'user'),
+(9, 'admin', '123456', 'อาภาพร', 'นคร', '00008', 2, 0, 'user');
 
 -- --------------------------------------------------------
 
@@ -84,6 +84,7 @@ CREATE TABLE `products` (
   `barcode` varchar(15) NOT NULL,
   `productname` varchar(255) NOT NULL,
   `unit` int(11) NOT NULL,
+  `imageproduct` text NOT NULL,
   `status` varchar(1) NOT NULL,
   `typeproduct` int(11) NOT NULL,
   `numproduct` int(11) NOT NULL,
@@ -91,6 +92,15 @@ CREATE TABLE `products` (
   `nameinsert` varchar(255) NOT NULL,
   `dateupdate` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `products`
+--
+
+INSERT INTO `products` (`id`, `productid`, `barcode`, `productname`, `unit`, `imageproduct`, `status`, `typeproduct`, `numproduct`, `dateinsert`, `nameinsert`, `dateupdate`) VALUES
+(16, '1234567890', '1234567890123', 'ยางลบ', 3, '', '1', 3, 5, '2023-11-26 17:41:40', 'nameinsert', '2023-11-26 17:41:40'),
+(17, '1234567890', '1234567890124', 'ปากกา', 2, '', '1', 3, 10, '2023-11-26 17:42:10', 'nameinsert', '2023-11-26 17:42:10'),
+(18, '1234567890', '1234567890125', 'เมาส์', 2, '', '1', 1, 1, '2023-11-26 17:43:44', 'nameinsert', '2023-11-26 17:43:44');
 
 -- --------------------------------------------------------
 
@@ -104,17 +114,36 @@ CREATE TABLE `producttype` (
   `status` varchar(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+--
+-- Dumping data for table `producttype`
+--
+
+INSERT INTO `producttype` (`id`, `nametype`, `status`) VALUES
+(1, 'อุปกรณ์ไอที', '1'),
+(2, 'น้ำหมึก', '1'),
+(3, 'อื่นๆ', '1');
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `unit`
+-- Table structure for table `units`
 --
 
-CREATE TABLE `unit` (
+CREATE TABLE `units` (
   `id` int(11) NOT NULL,
   `nameunit` varchar(255) NOT NULL,
   `status` varchar(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `units`
+--
+
+INSERT INTO `units` (`id`, `nameunit`, `status`) VALUES
+(1, 'ชิ้น', '1'),
+(2, 'อัน', '1'),
+(3, 'แท่ง', '0'),
+(4, 'เล่ม', '1');
 
 --
 -- Indexes for dumped tables
@@ -146,9 +175,9 @@ ALTER TABLE `producttype`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `unit`
+-- Indexes for table `units`
 --
-ALTER TABLE `unit`
+ALTER TABLE `units`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -171,19 +200,19 @@ ALTER TABLE `employees`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `producttype`
 --
 ALTER TABLE `producttype`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `unit`
+-- AUTO_INCREMENT for table `units`
 --
-ALTER TABLE `unit`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `units`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
