@@ -50,13 +50,21 @@ function isActive($data)
 			<ul class="nav nav-pills nav-sidebar flex-column " data-widget="treeview" role="menu" data-accordion="false">
 				<li class="nav-item">
 					<a href="home" class="nav-link <?php echo isActive('home') ?>">
-						<i class="nav-icon fas fa-th"></i>
+						<i class="nav-icon fas fa-sticky-note"></i>
 						<p>
 							เบิก-คืนสินค้า
 
 						</p>
 					</a>
 				</li>
+				<li class="nav-item">
+					<a href="history" class="nav-link <?php echo isActive('history') ?>">
+						<i class="nav-icon fas fa-th"></i>
+						<p>
+							ประวัติการเบิกคืนสินค้า
+
+						</p>
+					</a>
 				</li>
 			</ul>
 		</nav>

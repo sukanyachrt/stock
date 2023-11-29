@@ -17,6 +17,14 @@ class index extends Controller
     }
 }
 
+class history extends Controller
+{
+    function __construct()
+    {
+        parent::__construct();
+        $this->view->render('index/historywithdraw');
+    }
+}
 /* admin */
 class admin extends Controller
 {

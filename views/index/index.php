@@ -341,7 +341,7 @@
           </div>
         </div>
       </div>
-      <?php include('footer.php') ?>
+    
       <aside class="control-sidebar control-sidebar-light">
       </aside>
 
