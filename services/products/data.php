@@ -70,15 +70,4 @@ if ($data == "insertPro") {
       WHERE id='" . $product['editId'] . "'";
     $connect->queryData();
     echo json_encode($_POST);
-} else if ($data == "searchProductsByBarcode") {
-    $connect->sql = "SELECT	products.id,	productid,	barcode,	productname,	imageproduct,	products.`status`,	typeproduct,	numproduct,	nametype,	nameunit,	unit 
-    FROM	products
-	INNER JOIN units ON products.unit = units.id
-	INNER JOIN producttype ON products.typeproduct = producttype.id
-    WHERE products.barcode='" . $_GET['barcode'] . "' AND products.`status`=1
-    ORDER BY products.productname asc";
-    $connect->queryData();
-    $rsconnect = $connect->fetch_AssocData();
-    array_push($result, $rsconnect);
-    echo json_encode($result[0]);
-}
+} 

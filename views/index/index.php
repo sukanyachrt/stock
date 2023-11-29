@@ -3,6 +3,8 @@
 <link rel="stylesheet" href="asset/plugins/select2/css/select2.min.css">
 <link rel="stylesheet" href="asset/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
 <link rel="stylesheet" href="asset/dist/css/adminlte.min.css">
+<link rel="stylesheet" href="asset/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
+<link rel="stylesheet" href="asset/plugins/toastr/toastr.min.css">
 <link rel="stylesheet" href="asset/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
 <link rel="stylesheet" href="asset/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
 <link rel="stylesheet" href="asset/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
@@ -16,6 +18,10 @@
     background-color: #87CEFA;
     /* เปลี่ยนสีตามที่คุณต้องการ */
     cursor: pointer;
+  }
+
+  .dataTables_empty {
+    display: none;
   }
 </style>
 
@@ -119,9 +125,34 @@
                     ข้อมูลสินค้า
                   </h3>
                 </div>
+
                 <div class="card-body">
                   <div class="row">
-                    <div class="form-group col-sm-12">
+                    <div class="col-12">
+                      <div class="input-group mb-3">
+                        <div class="input-group-append">
+                          <span class="input-group-text">
+                            ประเภทการเบิก-คืน
+                          </span>
+                        </div>
+                        <select id="typewithdraw" name="typewithdraw" class="form-control">
+                          <option disabled selected value="">-- เลือก --</option>
+                          <option value="เบิกสินค้า">เบิกสินค้า</option>
+                          <option value="คืนสินค้า">คืนสินค้า</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="input-group mb-3">
+                        <div class="input-group-append">
+                          <span class="input-group-text">
+                            ชื่อผู้เบิกของ
+                          </span>
+                        </div>
+                        <input type="text" autocomplete="yes" class="form-control" id="namewithdraw" name="namewithdraw" placeholder="ชื่อผู้เบิกของ">
+                      </div>
+                    </div>
+                    <div class="form-group col-sm-12 classshowSearch">
                       <div class="input-group">
                         <div class="input-group-prepend">
                           <div class="input-group-text px-2">ค้นหาข้อมูล</div>
@@ -139,28 +170,8 @@
                     </div>
 
                   </div>
-                  <!-- <div class="card-body">
-                  <div class="row">
-                    <div class="form-group col-sm-10">
-                      <div class="input-group">
-                        <div class="input-group-prepend">
-                          <div class="input-group-text px-2">ค้นหาข้อมูล </div>
-                        </div>
 
-                        <input type="text" class="form-control" autocomplete="yes" id="textsearch" name="textsearch" placeholder="ค้นหาจากบาร์โค้ด">
-                      </div>
-                    </div>
-                    <div class="col-sm-2">
-                      <div class="form-group">
-                        <button type="button" class="btn btn-block btn-primary">
-                          <i class="fas fa-search"></i>
-                          ค้นหาข้อมูล
-                        </button>
-
-                      </div>
-                    </div>
-                  </div> -->
-                  <div class="row">
+                  <div class="row classshowSearch">
                     <div class="col-12">
                       <table class="table table-bordered" id="tbProducts">
                         <thead>
@@ -180,7 +191,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="card-footer text-center">
+                <div class="card-footer text-center classshowSearch">
                   <button type="button" class="btn btn-primary" onclick="confirmWithdraw()">
                     <i class="fas fa-save"></i>
                     บันทึกข้อมูล
@@ -247,20 +258,20 @@
       <div class="modal fade" id="modal-showResult">
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
-            <form class="form-horizontal" id="withdrawproductForm">
-              <div class="modal-header bg-primary">
-                <h4 class="modal-title">ข้อมูลรายละเอียดการเบิก-คืนสินค้า</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <div class="row justify-content-center">
-                  <div class="col-12">
+
+            <div class="modal-header bg-primary">
+              <h4 class="modal-title texttypeWithdraw">ข้อมูลรายละเอียดการเบิก-คืนสินค้า</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="row justify-content-center">
+                <!-- <div class="col-12">
                     <div class="input-group mb-3">
                       <div class="input-group-append">
                         <span class="input-group-text">
-                          ประเทการเบิก-คืน
+                          ประเภทการเบิก-คืน
                         </span>
                       </div>
                       <select id="typewithdraw" name="typewithdraw" class="form-control">
@@ -269,7 +280,6 @@
                         <option value="0">คืนสินค้า</option>
                       </select>
                     </div>
-
                   </div>
                   <div class="col-12">
                     <div class="input-group mb-3">
@@ -279,20 +289,33 @@
                         </span>
                       </div>
                       <input type="text" autocomplete="yes" class="form-control" id="namewithdraw" name="namewithdraw" placeholder="ชื่อผู้เบิกของ">
-
-
                     </div>
-                  </div>
+                  </div> -->
+                <div class="col-12">
+                  <table class="table table-bordered table-hover" id="tbShowconfirm">
+                    <thead>
+                      <tr>
+                        <th class="text-center">บาร์โค้ด</th>
+                        <th class="text-center">ชื่อสินค้า</th>
+                        <th class="text-center">ประเภทสินค้า</th>
+                        <th class="text-center">จำนวน</th>
 
+                      </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                    <tfoot></tfoot>
+                  </table>
                 </div>
-               
               </div>
-              <div class="modal-footer justify-content-center">
-                <button type="submit" class="btn btn-primary">ยืนยันการเบิกของ</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">ยกเลิก</button>
 
-              </div>
-            </form>
+            </div>
+            <div class="modal-footer justify-content-center">
+              <button type="button" onclick="saveWithdraw()" class="btn btn-primary btntypeWithdraw">ยืนยันการเบิกของ</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">ยกเลิก</button>
+
+            </div>
+
           </div>
         </div>
       </div>
@@ -302,7 +325,7 @@
         <div class="modal-dialog modal-sm">
           <div class="modal-content">
             <div class="modal-header bg-warning">
-              <h4 class="modal-title">ผลการค้นหา</h4>
+              <h4 class="modal-title">แจ้งเตือน</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -326,6 +349,8 @@
 
     <?php include('script.php') ?>
 </body>
+<script src="asset/plugins/sweetalert2/sweetalert2.min.js"></script>
+<script src="asset/plugins/toastr/toastr.min.js"></script>
 <script src="asset/plugins/jquery-validation/jquery.validate.min.js"></script>
 <script src="asset/plugins/select2/js/select2.full.min.js"></script>
 <script src="asset/plugins/datatables/jquery.dataTables.min.js"></script>
@@ -335,6 +360,13 @@
 <script src="asset/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
 <script src="asset/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
 <script>
+  var Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 5000
+  });
+  $('.classshowSearch').hide();
   $('#textsearch').focus();
   getProduct();
   $('#modal-searchproduct').on('shown.bs.modal', function() {
@@ -351,6 +383,7 @@
     }
   });
   const table = new DataTable('#tbProducts');
+  table.clear();
   let numrow = 1;
 
   //ค้นหาข้อมูลจาก barcode เพื่อใส่ลงในการเบิกของ
@@ -359,7 +392,7 @@
 
     $.ajax({
       type: 'GET',
-      url: "services/products/data.php?v=searchProductsByBarcode&barcode=" + barcode,
+      url: "services/withdraws/data.php?v=searchProductsByBarcode&barcode=" + barcode,
       success: function(response) {
         console.log(response)
         if (response == null) {
@@ -368,14 +401,15 @@
           return;
         }
         var item = response
-
         var existingRow = table.row(`#row_${item.id}`).data();
+        var productid = item.id;
 
         if (existingRow) {
           var quantityInput = $(`#row_${item.id} input[type='number']`);
           var currentQuantity = parseInt(quantityInput.val());
           quantityInput.val(currentQuantity + 1);
           textsearch.value = '';
+
         } else {
           var tbProducts = `<tr id="row_${item.id}">
                     <td class="text-center">${numrow}</td>
@@ -389,6 +423,8 @@
                         <button type="button" class="btn btn-xl delete-button"> <i class="fas fa-times delete-row"></i></button>
                     </td>
                 </tr>`;
+
+
           table.rows.add($(tbProducts)).draw();
           textsearch.value = '';
           updateNumrow()
@@ -396,6 +432,7 @@
         $(`#row_${item.id} .delete-button`).on('click', function() {
           deleteRow(item.id);
         });
+        checkNumproduct(productid)
       }
     });
   }
@@ -406,7 +443,7 @@
   function getProduct() {
     $.ajax({
       type: 'GET',
-      url: "services/products/data.php?v=searchProducts",
+      url: "services/withdraws/data.php?v=searchProducts",
       success: function(response) {
         var tablelist = $('#tblistProducts').DataTable();
         tablelist.clear();
@@ -462,6 +499,7 @@
       var quantityInput = existingRow.find('input[type="number"]');
       var currentQuantity = parseInt(quantityInput.val());
       quantityInput.val(currentQuantity + 1);
+
     } else {
 
       $.ajax({
@@ -499,12 +537,20 @@
             $(`#row_${item.id} .delete-button`).on('click', function() {
               deleteRow(item.id);
             });
+
+
           }
         }
       });
     }
-  }
 
+    checkNumproduct(productId);
+  }
+  $('#tbProducts tbody').on('change', 'input[type="number"]', function() {
+    var rowId = $(this).closest('tr').attr('id');
+    var rowIdParts = rowId.split("row_");
+    checkNumproduct(rowIdParts[1]);
+  });
 
   // ลบข้อมูลจาก table เบิกคืน
   function deleteRow(itemId) {
@@ -555,76 +601,167 @@
     listproduct.draw();
   });
 
+  //check ปริมาณสินค้า
+  function checkNumproduct(productid) {
+    if ($('#typewithdraw').val() == "เบิกสินค้า") {
+      var rowId = "row_" + productid;
+      var $targetRow = $('#tbProducts tbody tr[id="' + rowId + '"]');
+
+      if ($targetRow.length > 0) {
+        var numWithdraw = $targetRow.find('input[type="number"]').val();
+        $.ajax({
+          type: 'GET',
+          url: "services/withdraws/data.php?v=findnumproduct&productid=" + productid,
+          success: function(response) {
+            console.log(response)
+            let numproduct = response.numproduct;
+            let checknum = numproduct - numWithdraw
+            if (checknum < 0) {
+              var quantityInput = $(`#row_${productid} input[type='number']`);
+              var currentQuantity = parseInt(quantityInput.val());
+
+              quantityInput.val(currentQuantity - Math.abs(checknum));
+              toastr.error('ปริมาณสินค้าคงเหลือไม่พอในการเบิกครับ.')
+
+            }
+
+          },
+          error: function(error) {
+            console.log(error)
+          }
+        });
+
+
+      }
+    } else {
+      return;
+    }
+
+
+
+  }
+  $('#typewithdraw').on('change', function() {
+    var selectedValue = $(this).val();
+    if (selectedValue != "") {
+      $('.texttypeWithdraw').text('ข้อมูลรายละเอียดการ' + selectedValue)
+      $('.btntypeWithdraw').text('ยืนยันการ' + selectedValue)
+      $('.classshowSearch').show();
+    } else {
+      $('.classshowSearch').hide();
+    }
+  });
+
   //ยืนยันการเบิกของ
   function confirmWithdraw() {
     var allInputs = $('#tbProducts tbody tr input[type="number"]');
 
     // ตรวจสอบว่าพบหรือไม่
     if (allInputs.length > 0) {
-      $('#tbProducts tbody tr').each(function(index) {
-        var rowId = $(this).attr('id');
-        var rowIdParts = rowId.split("row_");
-        var rowNumber = rowIdParts[1];
-        var inputValue = $(this).find('input[type="number"]').val();
-        console.log('Row ID:', rowNumber, 'Input Value:', inputValue);
-        if (index == allInputs.length - 1) {
-          $('#modal-showResult').modal('show');
-        }
+      if ($('#typewithdraw') != "" && ($('#namewithdraw').val().trim()) != "") {
+        $('#tbShowconfirm tbody').html('')
+        let sumnumWithdraw = 0;
+        $('#tbProducts tbody tr').each(function(index) {
+          var rowId = $(this).attr('id');
+          var rowIdParts = rowId.split("row_");
+          var rowNumber = rowIdParts[1];
 
-      });
+
+          var barcode = $(this).find('td:eq(1)').text();
+          var productname = $(this).find('td:eq(2)').text();
+          var producttype = $(this).find('td:eq(3)').text();
+
+          var numWithdraw = $(this).find('input[type="number"]').val();
+          sumnumWithdraw = sumnumWithdraw + parseFloat(numWithdraw);
+          console.log('Row ID:', rowNumber, 'Input Value:', numWithdraw, 'secondTdText :');
+          $('#tbShowconfirm tbody').append(`<tr id="productid_${rowNumber}">
+            <td>${barcode}</td>
+            <td>${productname}</td>
+            <td>${producttype}</td>
+            <td>${numWithdraw}</td>
+          
+            </tr>`);
+          if (index == allInputs.length - 1) {
+
+
+            $('#modal-showResult').modal('show');
+          }
+
+        });
+        $('#tbShowconfirm tfoot').html(`<tr>
+      <td colspan="3"><b>รวม</b></td>
+      <td>${sumnumWithdraw}</td>
+      </tr>`);
+      } else {
+        $('#resultBarcode').text(`โปรดกรอกชื่อผู้เบิก | คืนสินค้าครับ`)
+        $('#modal-Alertdata').modal('show');
+        return;
+      }
+
 
     } else {
       $('#resultBarcode').text(`คุณยังไม่ได้คีย์เบิก-คืนสินค้าครับ !!`)
       $('#modal-Alertdata').modal('show');
 
     }
+
+
   }
 
-  $('#withdrawproductForm').validate({
-    rules: {
-      typewithdraw: {
-        required: true,
-      },
-      namewithdraw: {
-        required: true,
-      },
-    },
-    messages: {
-      typewithdraw: {
-        required: "โปรดเลือกประเภทการเบิก-คืนสินค้า",
-      },
-      namewithdraw: {
-        required: "โปรดกรอกชื่อผู้เบิก-คืนของ",
-      },
-    },
-    errorElement: 'span',
-    errorPlacement: function(error, element) {
-      error.addClass('invalid-feedback');
-      element.closest('.form-group').append(error);
-    },
-    highlight: function(element, errorClass, validClass) {
-      $(element).addClass('is-invalid');
-    },
-    unhighlight: function(element, errorClass, validClass) {
-      $(element).removeClass('is-invalid');
-    },
-    submitHandler: function(form) {
-      $.ajax({
-        type: 'POST',
-        url: "services/withdraws/data.php?v=withdrawsProduct",
-        data: $(form).serialize(),
-        success: function(response) {
-          console.log(response)
 
-        },
-        error: function(error) {
-          console.log(error)
-        }
-      });
+  function saveWithdraw() {
+    var formData = new FormData();
+    formData.append('typewithdraw', $('#typewithdraw').val());
+    formData.append('namewithdraw', $('#namewithdraw').val());
+    var dataWithdraw = [];
+    $('#tbShowconfirm tbody tr').each(function(index) {
+      var rowId = $(this).attr('id');
+      var rowIdParts = rowId.split("productid_");
+      var rowNumber = rowIdParts[1];
+      // <tr id="productid_${rowNumber}">
+      var barcode = $(this).find('td:eq(1)').text();
+      var numwithdraw = $(this).find('td:eq(3)').text();
+      let data_ = {
+        "productid" : rowNumber,
+        "barcode": barcode,
+        "numwithdraw": numwithdraw
+      }
 
-    }
 
-  });
+
+      dataWithdraw.push(data_)
+
+      console.log('productname:', barcode, 'numwithdraw :' + numwithdraw);
+
+    });
+    var dataWithdrawJSON = JSON.stringify(dataWithdraw);
+
+    // Append the JSON string to the FormData
+    formData.append('dataWithdraw', dataWithdrawJSON);
+    // formData.append('dataWithdraw', dataWithdraw);
+    console.log(formData)
+
+    $.ajax({
+      async: true,
+      url: "services/withdraws/data.php?v=withdrawsProduct",
+      type: "POST",
+      cache: false,
+      data: formData,
+      processData: false, // tell jQuery not to process the data
+      contentType: false,
+
+      success: function(response) {
+        console.log(response)
+        $('#modal-showResult').modal('hide');
+        toastr.success('บันทึกรายการเรียบร้อยแล้วครับ.')
+        $('#tbShowconfirm tbody').html('')
+        $('#tbProducts tbody').html('')
+        $('#namewithdraw').val('')
+      },
+      error: function(error) {
+        console.log(error);
+      }
+    });
+  }
 </script>
 
 </html>
