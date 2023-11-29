@@ -52,7 +52,7 @@ function isActive($data)
 					<a href="admin" class="nav-link <?php echo isActive('admin') ?>">
 						<i class="nav-icon fas fa-tachometer-alt"></i>
 						<p>
-							dashboard
+							ภาพรวมของระบบ
 
 						</p>
 					</a>
@@ -87,7 +87,7 @@ function isActive($data)
 						</li>
 						<li class="nav-item">
 							<a href="producttype" class="nav-link <?php echo isActive('producttype') ?>">
-								<i class="far fa-circle nav-icon"></i>
+							<i class="far fas fa-tasks nav-icon"></i>
 								<p>ข้อมูลประเภทสินค้า</p>
 							</a>
 						</li>
