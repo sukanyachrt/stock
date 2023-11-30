@@ -434,7 +434,7 @@ $connect->connectData();
                                             <option value="1">ใช้งาน</option>
                                             <option value="0">ไม่ใช้งาน</option>
                                         </select>
-                                       
+
                                     </div>
                                 </div>
                             </div>
@@ -549,7 +549,8 @@ $connect->connectData();
         height: 100% !important;
         line-height: inherit !important;
     }
-    .dataTables_filter{
+
+    .dataTables_filter {
         display: none;
     }
 </style>
@@ -592,42 +593,90 @@ $connect->connectData();
 
     const table = new DataTable('#tbProducts')
 
-    textsearch.addEventListener('input', function() {
-        table.draw();
-    });
+
 
     let isModalOpen = false;
-
     textsearch.addEventListener('input', function(event) {
         var value = $(this).val().trim();
         var isNumeric = !isNaN(value);
+        if (value.length === 13 && isNumeric) {
+            getProductByBarcode(value);
+        }
 
         DataTable.ext.search.pop();
-        DataTable.ext.search.push(function(settings, data, dataIndex) {
-            const searchText = value.toLowerCase();
-            const rowData = data.join(' ').toLowerCase();
-            const found = rowData.includes(searchText);
 
-            if (found && isNumeric) {
-                if (!isModalOpen && value.length === 13) {
-                    const rowId = $('#tbProducts').DataTable().row(dataIndex).node().id;
-                    getProductById(rowId);
+        if (value !== '') {
+            DataTable.ext.search.push(function(settings, data, dataIndex) {
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].toLowerCase().includes(value.toLowerCase())) {
+                        return true;
+                    }
                 }
-            } else {
-                if (isModalOpen && value.length < 13) {
-                    $("#modal-edit").modal("hide");
-                    isModalOpen = false;
-                }
-            }
-
-            return found;
-        });
+                return false;
+            });
+        }
 
         table.draw();
     });
 
+    function getProductByBarcode(objBarcode) {
+        var barcode = objBarcode;
 
-  
+        $.ajax({
+            type: 'GET',
+            url: "services/products/data.php?v=searchProductsByBarcode&barcode=" + barcode,
+            success: function(response) {
+                if (response) {
+                    modalEdit(response);
+                    $("#modal-edit").modal("show");
+                } else {
+                    $("#modal-product").modal("show");
+                    $('#barcode').val(barcode)
+                }
+               
+            }
+        });
+    }
+
+
+    // textsearch.addEventListener('input', function(event) {
+    //     var value = $(this).val().trim();
+    //     var isNumeric = !isNaN(value);
+
+    //     DataTable.ext.search.pop();
+    //     DataTable.ext.search.push(function(settings, data, dataIndex) {
+    //         const searchText = value.toLowerCase();
+    //         const rowData = data.join(' ').toLowerCase();
+    //         const found = rowData.includes(searchText);
+
+    //         if (found && isNumeric) {
+    //             console.log(rowData)
+    //             if (!isModalOpen && value.length === 13) {
+    //                 const rowId = $('#tbProducts').DataTable().row(dataIndex).node().id;
+    //                 getProductById(rowId);
+    //             }
+    //             else{
+
+    //             }
+    //         } 
+
+    //         else {
+
+
+    //             if (isModalOpen && value.length < 13) {
+    //                 $("#modal-edit").modal("hide");
+    //                 isModalOpen = false;
+    //             }
+    //         }
+
+    //         return found;
+    //     });
+
+    //     table.draw();
+    // });
+
+
+
 
 
 
@@ -760,7 +809,7 @@ $connect->connectData();
 
                     getProduct();
                     toastr.success('บันทึกข้อมูลแล้วครับ.')
-                    form.reset();
+                    resetProductForm();
                 },
                 error: function(error) {
                     console.log(error)
@@ -770,6 +819,13 @@ $connect->connectData();
 
     });
 
+    function resetProductForm(){
+        $('#productid').val('');
+        $('#productname').val('');
+        $('#productnumber').val('');
+        $('#textsearch').val('')
+    }
+    
     function loadFile(input, type) {
         var imageProduct = document.getElementById('productimage');
         var base64ImageInput = document.getElementById('base64Image');
@@ -975,7 +1031,7 @@ $connect->connectData();
 
     }
 
-    //เพิ่มข้อมูลสินค้า
+    //แก้ไจข้อมูลสินค้า
     $('#editproductForm').validate({
         rules: {
             editproductid: {
@@ -1042,7 +1098,7 @@ $connect->connectData();
                 contentType: false,
                 success: function(response) {
                     console.log(response)
-                    
+
                     getProduct();
                     toastr.success('บันทึกการแก้ไขข้อมูลแล้วครับ.')
                     form.reset();

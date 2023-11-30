@@ -49,7 +49,21 @@ if ($data == "insertPro") {
     $rsconnect = $connect->fetch_AssocData();
     array_push($result, $rsconnect);
     echo json_encode($result[0]);
-} else if ($data == 'delproduct') {
+} 
+else if ($data == "searchProductsByBarcode") {
+
+    $connect->sql = "SELECT	products.id,	productid,	barcode,	productname,	imageproduct,	products.`status`,	typeproduct,	numproduct,	nametype,	nameunit,	unit 
+    FROM	products
+	INNER JOIN units ON products.unit = units.id
+	INNER JOIN producttype ON products.typeproduct = producttype.id
+    WHERE products.barcode='" . $_GET['barcode'] . "'
+    ORDER BY products.productname asc";
+    $connect->queryData();
+    $rsconnect = $connect->fetch_AssocData();
+    array_push($result, $rsconnect);
+    echo json_encode($result[0]);
+} 
+else if ($data == 'delproduct') {
     $id = $_GET['id'];
     $connect->sql = "UPDATE products SET  status='0'  WHERE id ='" . $id . "'";
     $connect->queryData();
