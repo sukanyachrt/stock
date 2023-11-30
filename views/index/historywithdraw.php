@@ -126,7 +126,7 @@
 
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col-12">
+                                        <div class="col-12 table-responsive">
                                             <table class="table table-bordered" id="tbwithdraws">
                                                 <thead>
                                                     <tr>

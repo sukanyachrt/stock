@@ -6,6 +6,11 @@
 <link rel="stylesheet" href="asset/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
 <link rel="stylesheet" href="asset/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
 <link rel="stylesheet" href="asset/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+<?php
+include("./services/Connect_Data.php");
+$connect = new Connect_Data();
+$connect->connectData();
+?>
 
 <body class="hold-transition sidebar-mini layout-fixed">
   <div class="wrapper">
@@ -103,7 +108,16 @@
                 <div class="info-box-content">
                   <span class="info-box-text">จำนวนสินค้าในสต๊อก</span>
                   <span class="info-box-number">
-                    10
+                    <?php
+                    $connect->sql = "SELECT sum( numproduct ) AS numproduct 
+                      FROM
+                      products
+                      where `status`=1";
+                    $connect->queryData();
+                    $rsconnect = $connect->fetch_AssocData();
+                    echo $rsconnect['numproduct'] ?? 0;
+                    ?>
+
                     <small>Items</small>
                   </span>
                 </div>
@@ -116,7 +130,14 @@
                 <div class="info-box-content">
                   <span class="info-box-text">ปริมาณการเบิกสินค้า</span>
                   <span class="info-box-number">
-                    10
+                    <?php
+                    $connect->sql = "SELECT sum( numwithdraw )  as numwithdraw
+                    FROM withdraw WHERE `status` = 1 
+                    AND typewithdraw = 'เบิกสินค้า'";
+                    $connect->queryData();
+                    $rsconnect = $connect->fetch_AssocData();
+                    echo $rsconnect['numwithdraw'] ?? 0;
+                    ?>
                     <small>items</small>
                   </span>
                 </div>
@@ -129,7 +150,14 @@
                 <div class="info-box-content">
                   <span class="info-box-text">ปริมาณการคืนของสินค้า</span>
                   <span class="info-box-number">
-                    10
+                    <?php
+                    $connect->sql = "SELECT sum( numwithdraw )  as numwithdraw
+                    FROM withdraw WHERE `status` = 1 
+                    AND typewithdraw = 'คืนสินค้า'";
+                    $connect->queryData();
+                    $rsconnect = $connect->fetch_AssocData();
+                    echo $rsconnect['numwithdraw'] ?? 0;
+                    ?>
                     <small>items</small>
                   </span>
                 </div>
@@ -143,7 +171,13 @@
                 <div class="info-box-content">
                   <span class="info-box-text">จำนวนพนักงาน</span>
                   <span class="info-box-number">
-                    10
+                    <?php
+                    $connect->sql = "SELECT count(*) as numemploy
+                    FROM  employees where status_emp=1";
+                    $connect->queryData();
+                    $rsconnect = $connect->fetch_AssocData();
+                    echo $rsconnect['numemploy'] ?? 0;
+                    ?>
                     <small>คน</small>
                   </span>
                 </div>
@@ -166,7 +200,7 @@
                   </div>
                 </div>
                 <div class="card-body">
-                  <canvas id="pieChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                  <canvas id="pieChart_typeproduct" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                 </div>
               </div>
             </div>
@@ -185,7 +219,7 @@
                   </div>
                 </div>
                 <div class="card-body">
-                  <canvas id="pieChart2" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                  <canvas id="pieChart_of_product" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                 </div>
               </div>
             </div>
@@ -214,9 +248,9 @@
                   </div>
                 </div>
 
-                <div class="card-body">
+                <div class="card-body table-responsive">
                   <div class="row">
-                    <div class="col-12">
+                    <div class="col-12 ">
                       <table class="table table-bordered" id="tbwithdraws">
                         <thead>
                           <tr>
@@ -314,65 +348,92 @@
   }
 
   function pieStockTypeproducts() {
-    var donutData        = {
-      labels: [
-          'เครื่องเขียน',
-          'อุปกรณ์สำนักงาน',
-          'อื่นๆ',
-          
-      ],
-      datasets: [
-        {
-          data: [10,2,6],
-          backgroundColor : ['#f56954', '#00a65a', '#f39c12'],
+    $.ajax({
+      type: 'GET',
+      url: "services/dashboard/data.php?v=stockoftypeproduct",
+      success: function(response) {
+        var labels = [];
+        var data = [];
+        $.each(response, function(index, item) {
+          labels.push(item.nametype)
+          data.push(item.numproduct ?? 0)
+        });
+        var pieChartStockoftype = {
+          labels: labels,
+          datasets: [{
+            data: data,
+            backgroundColor: data.map(() => getRandomColor())
+          }]
         }
-      ]
-    }
-    var pieChartCanvas = $('#pieChart').get(0).getContext('2d')
-    var pieData = donutData;
-    var pieOptions = {
-      maintainAspectRatio: false,
-      responsive: true,
-    }
-    //Create pie or douhnut chart
-    // You can switch between pie and douhnut using the method below.
-    new Chart(pieChartCanvas, {
-      type: 'pie',
-      data: pieData,
-      options: pieOptions
-    })
+        var pieChartCanvas = $('#pieChart_typeproduct').get(0).getContext('2d')
+        var pieData = pieChartStockoftype;
+        var pieOptions = {
+
+          maintainAspectRatio: false,
+          responsive: true,
+        }
+        new Chart(pieChartCanvas, {
+          type: 'pie',
+          data: pieData,
+          options: pieOptions
+        })
+      }
+    });
+
   }
 
   function pieStockProducts() {
-    var donutData        = {
-      labels: [
-          'ปากกาสีแดง',
-          'ยางลบ',
-          'ดินสอ',
-          'ปากกาดำ',
-          'เมาส์',
-          'น้ำ',
-      ],
-      datasets: [
-        {
-          data: [700,500,400,600,300,100],
-          backgroundColor : ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de'],
+    $.ajax({
+      type: 'GET',
+      url: "services/dashboard/data.php?v=stockofproduct",
+      success: function(response) {
+        console.log(response)
+        var labels = [];
+        var data = [];
+        $.each(response, function(index, item) {
+          labels.push(item.productname)
+          data.push(item.numproduct ?? 0)
+        });
+        var pieChartStockoftype = {
+          labels: labels,
+          datasets: [{
+            data: data,
+            backgroundColor: data.map(() => getRandomColor())
+          }]
         }
-      ]
+        var pieChartCanvas = $('#pieChart_of_product').get(0).getContext('2d')
+        var pieData = pieChartStockoftype;
+        var pieOptions = {
+          maintainAspectRatio: false,
+          responsive: true,
+          tooltips: {
+            callbacks: {
+              label: function(tooltipItem, data) {
+                var dataset = data.datasets[tooltipItem.datasetIndex];
+                var label = data.labels[tooltipItem.index] || '';
+                var value = dataset.data[tooltipItem.index] || '';
+                return label + ': ' + value;
+              }
+            }
+          }
+        }
+        new Chart(pieChartCanvas, {
+          type: 'pie',
+          data: pieData,
+          options: pieOptions
+        })
+      }
+    });
+
+  }
+
+  function getRandomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
     }
-    var pieChartCanvas = $('#pieChart2').get(0).getContext('2d')
-    var pieData = donutData;
-    var pieOptions = {
-      maintainAspectRatio: false,
-      responsive: true,
-    }
-    //Create pie or douhnut chart
-    // You can switch between pie and douhnut using the method below.
-    new Chart(pieChartCanvas, {
-      type: 'pie',
-      data: pieData,
-      options: pieOptions
-    })
+    return color;
   }
 </script>
 
