@@ -6,6 +6,16 @@
  * @link https://appzstory.dev
  * @author Yothin Sapsamran (Jame AppzStory Studio)
  */
+
+
+if ($_SESSION['id'] == "") {
+	header("Location: index");
+}
+else{
+	if($_SESSION['role_emp']!="admin"){
+		header("Location: index");
+	}
+}
 function isActive($data)
 {
 	$array = explode('/', $_SERVER['REQUEST_URI']);
@@ -29,7 +39,7 @@ function isActive($data)
 				<img src="asset/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
 			</div>
 			<div class="info">
-				<a href="#" class="d-block">Admin <?php echo isActive('admin') ?></a>
+				<a href="#" class="d-block"><?php echo $_SESSION['fname']." ".$_SESSION['lname'] ?></a>
 			</div>
 		</div>
 
@@ -67,7 +77,7 @@ function isActive($data)
 					</a>
 				</li>
 				<li class="nav-item menu-open">
-				<a href="#" class="nav-link <?php echo isActive('unit') || isActive('product') || isActive('producttype') ? 'active' : '' ?>">
+					<a href="#" class="nav-link <?php echo isActive('unit') || isActive('product') || isActive('producttype') ? 'active' : '' ?>">
 
 						<i class="nav-icon fas fa-table"></i>
 						<p>
@@ -87,7 +97,7 @@ function isActive($data)
 						</li>
 						<li class="nav-item">
 							<a href="producttype" class="nav-link <?php echo isActive('producttype') ?>">
-							<i class="far fas fa-tasks nav-icon"></i>
+								<i class="far fas fa-tasks nav-icon"></i>
 								<p>ข้อมูลประเภทสินค้า</p>
 							</a>
 						</li>

@@ -6,8 +6,11 @@
  * @link https://appzstory.dev
  * @author Yothin Sapsamran (Jame AppzStory Studio)
  */
+
+
 function isActive($data)
 {
+
     $array = explode('/', $_SERVER['REQUEST_URI']);
     $key = array_search("stock", $array);
     $name = $array[$key + 1];
@@ -29,7 +32,10 @@ function isActive($data)
 				<img src="asset/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
 			</div>
 			<div class="info">
-				<a href="#" class="d-block">ผู้ใช้งานทั่วไป</a>
+				<a href="#" class="d-block">
+					<?php echo $_SESSION['fname'] ?? 'ผู้ใช้งานทั่วไป' ?>
+					<?php echo $_SESSION['lname'] ?? '' ?>
+				</a>
 			</div>
 		</div>
 
@@ -49,7 +55,7 @@ function isActive($data)
 		<nav class="mt-2">
 			<ul class="nav nav-pills nav-sidebar flex-column " data-widget="treeview" role="menu" data-accordion="false">
 				<li class="nav-item">
-					<a href="home" class="nav-link <?php echo isActive('home') ?>">
+					<a href="user" class="nav-link <?php echo isActive('user') ?>">
 						<i class="nav-icon fas fa-sticky-note"></i>
 						<p>
 							เบิก-คืนสินค้า

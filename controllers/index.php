@@ -1,6 +1,6 @@
 <?php
 
-class home extends Controller
+class user extends Controller
 {
     function __construct()
     {
@@ -14,6 +14,15 @@ class index extends Controller
     {
         parent::__construct();
         $this->view->render('index/login');
+    }
+}
+
+class logout extends Controller
+{
+    function __construct()
+    {
+        parent::__construct();
+        $this->view->render('index/logout');
     }
 }
 
