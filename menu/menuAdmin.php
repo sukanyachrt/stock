@@ -110,7 +110,22 @@ function isActive($data)
 
 					</ul>
 				</li>
-
+				<li class="nav-header">บัญชีการเข้าใช้</li>
+				<li class="nav-item">
+					<a href="logout" class="nav-link">
+						<i class="nav-icon fas fa-sign-out-alt"></i>
+						<p class="text">
+							<?php 
+								if(!isset($_SESSION['id'])){
+									echo "ยังไม่ได้ลงชื่อเข้าใช้";
+								}
+								else{
+									echo "ออกจากระบบ";
+								}
+							?>	
+						</p>
+					</a>
+				</li>
 
 
 			</ul>
