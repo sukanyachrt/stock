@@ -49,8 +49,7 @@ if ($data == "insertPro") {
     $rsconnect = $connect->fetch_AssocData();
     array_push($result, $rsconnect);
     echo json_encode($result[0]);
-} 
-else if ($data == "searchProductsByBarcode") {
+} else if ($data == "searchProductsByBarcode") {
 
     $connect->sql = "SELECT	products.id,	productid,	barcode,	productname,	imageproduct,	products.`status`,	typeproduct,	numproduct,	nametype,	nameunit,	unit 
     FROM	products
@@ -62,8 +61,7 @@ else if ($data == "searchProductsByBarcode") {
     $rsconnect = $connect->fetch_AssocData();
     array_push($result, $rsconnect);
     echo json_encode($result[0]);
-} 
-else if ($data == 'delproduct') {
+} else if ($data == 'delproduct') {
     $id = $_GET['id'];
     $connect->sql = "UPDATE products SET  status='0'  WHERE id ='" . $id . "'";
     $connect->queryData();
@@ -84,4 +82,4 @@ else if ($data == 'delproduct') {
       WHERE id='" . $product['editId'] . "'";
     $connect->queryData();
     echo json_encode($_POST);
-} 
+}

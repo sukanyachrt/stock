@@ -633,7 +633,7 @@ $connect->connectData();
                     $("#modal-product").modal("show");
                     $('#barcode').val(barcode)
                 }
-               
+
             }
         });
     }
@@ -736,6 +736,23 @@ $connect->connectData();
         });
     }
 
+    const barcode = document.querySelector('#barcode');
+
+
+    barcode.addEventListener('input', function(event) {
+        var value = $(this).val().trim();
+        console.log(value)
+        var isNumeric = !isNaN(value);
+        if (value.length === 13 && isNumeric) {
+
+            getProductByBarcode(value);
+            $('#barcode').val('');
+
+        }
+
+
+    });
+
 
     //เพิ่มข้อมูลสินค้า
     $('#productForm').validate({
@@ -803,6 +820,8 @@ $connect->connectData();
                 processData: false,
                 contentType: false,
                 success: function(response) {
+
+
                     if (!$('#checkAdd').is(':checked')) {
                         $('#modal-product').modal('hide');
                     }
@@ -819,13 +838,13 @@ $connect->connectData();
 
     });
 
-    function resetProductForm(){
+    function resetProductForm() {
         $('#productid').val('');
         $('#productname').val('');
         $('#productnumber').val('');
-        $('#textsearch').val('')
+        $('#barcode').val('')
     }
-    
+
     function loadFile(input, type) {
         var imageProduct = document.getElementById('productimage');
         var base64ImageInput = document.getElementById('base64Image');
@@ -1098,7 +1117,8 @@ $connect->connectData();
                 contentType: false,
                 success: function(response) {
                     console.log(response)
-
+                    $("#modal-product").modal("hide");
+                    $("#modal-edit").modal("hide");
                     getProduct();
                     toastr.success('บันทึกการแก้ไขข้อมูลแล้วครับ.')
                     form.reset();
