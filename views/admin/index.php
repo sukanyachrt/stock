@@ -286,6 +286,7 @@ $connect->connectData();
       type: 'GET',
       url: "services/dashboard/data.php?v=stockoftypeproduct",
       success: function(response) {
+        console.log(response)
         var labels = [];
         var data = [];
         $.each(response, function(index, item) {
@@ -321,7 +322,7 @@ $connect->connectData();
       type: 'GET',
       url: "services/dashboard/data.php?v=stockofproduct",
       success: function(response) {
-        console.log(response)
+       // console.log(response)
         var labels = [];
         var data = [];
         $.each(response, function(index, item) {

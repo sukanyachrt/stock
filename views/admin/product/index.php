@@ -37,8 +37,8 @@ $connect->connectData();
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
         <!-- Navbar -->
-    <?php include('menu/nav.php') ?>
-    <!-- /.navbar -->
+        <?php include('menu/nav.php') ?>
+        <!-- /.navbar -->
 
         <?php include('menu/menuAdmin.php') ?>
 
@@ -95,6 +95,7 @@ $connect->connectData();
                                                         <th>ชื่อสินค้า</th>
                                                         <th class="text-center">ประเภทสินค้า</th>
                                                         <th class="text-center">จำนวน</th>
+                                                        <th class="text-center">ผู้จัดจำหน่าย</th>
                                                         <th class="text-center">รูป</th>
                                                         <th class="text-center">สถานะ</th>
                                                         <th class="text-center">จัดการข้อมูล</th>
@@ -207,6 +208,25 @@ $connect->connectData();
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-md-6">
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">
+                                                    ผู้จัดจำหน่าย
+                                                </span>
+                                            </div>
+                                            <select id="productdistributor" name="productdistributor" class="form-control">
+                                                <option></option>
+
+                                            </select>
+                                            <div class="input-group-append">
+                                                <div class="input-group-text btn btn-primary" data-toggle="modal" data-target="#modal-distributor">
+                                                    <i class="fas fa-plus"></i>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6" style="align-content: center;">
@@ -227,11 +247,13 @@ $connect->connectData();
                                 </div>
                             </div>
 
+
                             <div class="modal-footer justify-center">
                                 <div class="custom-control custom-switch">
                                     <input type="checkbox" id="checkAdd" class="custom-control-input">
                                     <label class="custom-control-label" for="checkAdd">เพิ่มสินค้าอื่นๆ ต่อ</label>
                                 </div>
+                                <input type="hidden" id="Product_id" name="Product_id" value="">
                                 <button type="submit" class="btn btn-primary">
                                     <i class="fas fa-save"></i>
                                     บันทึก
@@ -338,6 +360,38 @@ $connect->connectData();
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-md-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">
+                                                dis
+                                            </span>
+                                        </div>
+                                        <select id="editdistributor" name="editdistributor" class="form-control">
+                                            <option></option>
+                                        </select>
+                                        <div class="input-group-append">
+                                            <div class="input-group-text btn btn-primary" data-toggle="modal" data-target="#modal-distributor">
+                                                <i class="fas fa-plus"></i>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">
+                                                สถานะ
+                                            </span>
+                                        </div>
+                                        <select id="editproductstatus" name="editproductstatus" class="form-control">
+                                            <option disabled selected value="">-- เลือก --</option>
+                                            <option value="1">ใช้งาน</option>
+                                            <option value="0">ไม่ใช้งาน</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6" style="align-content: center;">
@@ -355,22 +409,7 @@ $connect->connectData();
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
 
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text">
-                                                สถานะ
-                                            </span>
-                                        </div>
-                                        <select id="editproductstatus" name="editproductstatus" class="form-control">
-                                            <option disabled selected value="">-- เลือก --</option>
-                                            <option value="1">ใช้งาน</option>
-                                            <option value="0">ไม่ใช้งาน</option>
-                                        </select>
-
-                                    </div>
-                                </div>
                             </div>
                         </div>
                         <div class="modal-footer justify-content-center">
@@ -466,6 +505,34 @@ $connect->connectData();
         </div>
     </div>
     <!-- จบการเพิ่มประเภทสินค้า -->
+    <!-- เพิ่มdistributor -->
+    <div class="modal fade" id="modal-distributor">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="distributorForm">
+                    <div class="modal-header bg-primary">
+                        <h4 class="modal-title">เพิ่มข้อมูลdistributor</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">ชื่อdistributor :</label>
+                            <input type="text" autocomplete="yes" class="form-control" id="nametype" name="nametype" placeholder="ชื่อdistributor">
+                        </div>
+                    </div>
+                    <div class="modal-footer justify-content-center">
+                        <button type="submit" class="btn btn-primary">เพิ่มข้อมูล</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">ยกเลิก</button>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- จบการเพิ่มdistributor -->
+
     <?php include('menu/script.php') ?>
 </body>
 
@@ -510,6 +577,7 @@ $connect->connectData();
         getProduct()
         getUnits();
         getProductType()
+        getdistributor()
         $('#modal-product').on('shown.bs.modal', function() {
             // Use a setTimeout to delay the focus
             $('#barcode').focus();
@@ -561,8 +629,26 @@ $connect->connectData();
             url: "services/products/data.php?v=searchProductsByBarcode&barcode=" + barcode,
             success: function(response) {
                 if (response) {
-                    modalEdit(response);
-                    $("#modal-edit").modal("show");
+                    console.log(response)
+                    
+                    
+                            $('#Product_id').val(response.id)
+                            $('#productid').val(response.productid)
+                            $('#productname').val(response.productname)
+                            $('#producttype').val(response.typeproduct)
+                          
+                            $('#productunit').val(response.unit);
+                            $('#productdistributor').val(response.distributor);
+                            var imageProduct = document.getElementById('productimage');
+                            var base64ImageInput = document.getElementById('editbase64Image');
+                            if (response.imageproduct !== undefined && response.imageproduct != null && response.imageproduct !== "") {
+                                imageProduct.src = `data:image/png;base64,${response.imageproduct}`
+                                base64ImageInput.value = response.imageproduct
+                            }
+                    
+
+                    //modalEdit(response);
+                    // $("#modal-edit").modal("show");
                 } else {
                     $("#modal-product").modal("show");
                     $('#barcode').val(barcode)
@@ -573,53 +659,12 @@ $connect->connectData();
     }
 
 
-    // textsearch.addEventListener('input', function(event) {
-    //     var value = $(this).val().trim();
-    //     var isNumeric = !isNaN(value);
-
-    //     DataTable.ext.search.pop();
-    //     DataTable.ext.search.push(function(settings, data, dataIndex) {
-    //         const searchText = value.toLowerCase();
-    //         const rowData = data.join(' ').toLowerCase();
-    //         const found = rowData.includes(searchText);
-
-    //         if (found && isNumeric) {
-    //             console.log(rowData)
-    //             if (!isModalOpen && value.length === 13) {
-    //                 const rowId = $('#tbProducts').DataTable().row(dataIndex).node().id;
-    //                 getProductById(rowId);
-    //             }
-    //             else{
-
-    //             }
-    //         } 
-
-    //         else {
-
-
-    //             if (isModalOpen && value.length < 13) {
-    //                 $("#modal-edit").modal("hide");
-    //                 isModalOpen = false;
-    //             }
-    //         }
-
-    //         return found;
-    //     });
-
-    //     table.draw();
-    // });
-
-
-
-
-
-
     function getProduct() {
         $.ajax({
             type: 'GET',
             url: "services/products/data.php?v=searchProducts",
             success: function(response) {
-
+                console.log(response)
                 var table = $('#tbProducts').DataTable();
                 table.clear();
                 var tbProducts = '';
@@ -630,6 +675,7 @@ $connect->connectData();
                         <td>${item.productname}</td>
                         <td class="text-center">${item.nametype}</td>
                         <td class="text-center">${item.numproduct} ${item.nameunit}</td>
+                        <td class="text-center">${item.namedis}</td>
                         <td class="text-center">
                         ${item.imageproduct !== undefined && item.imageproduct != null && item.imageproduct !== "" ? 
                             `<img class="attachment-img img-md" src="data:image/png;base64,${item.imageproduct}" alt="Attachment Image">` : 
@@ -680,7 +726,7 @@ $connect->connectData();
         if (value.length === 13 && isNumeric) {
 
             getProductByBarcode(value);
-            $('#barcode').val('');
+            // $('#barcode').val('');
 
         }
 
@@ -706,6 +752,9 @@ $connect->connectData();
             productnumber: {
                 required: true,
             },
+            productdistributor: {
+                required: true,
+            }
 
         },
         messages: {
@@ -729,6 +778,9 @@ $connect->connectData();
                 required: "โปรดกรอกจำนวนสินค้า",
 
             },
+            productdistributor: {
+                required: "โปรดเลือก Distributor",
+            }
 
 
         },
@@ -754,7 +806,7 @@ $connect->connectData();
                 processData: false,
                 contentType: false,
                 success: function(response) {
-
+                    //console.log(response)
 
                     if (!$('#checkAdd').is(':checked')) {
                         $('#modal-product').modal('hide');
@@ -776,7 +828,9 @@ $connect->connectData();
         $('#productid').val('');
         $('#productname').val('');
         $('#productnumber').val('');
-        $('#barcode').val('')
+        $('#barcode').val('');
+        $('#Product_id').val('');
+
     }
 
     function loadFile(input, type) {
@@ -894,6 +948,7 @@ $connect->connectData();
         });
     }
     //จบ unit
+
     //producttype
     //เพิ่มข้อมูล
     $('#productTypeForm').validate({
@@ -964,9 +1019,81 @@ $connect->connectData();
         });
     }
 
+    //distributor
+    //เพิ่มข้อมูล
+    $('#distributorForm').validate({
+        rules: {
+            nametype: {
+                required: true,
+            },
+
+        },
+        messages: {
+            nametype: {
+                required: "โปรดกรอกชื่อ Distributor",
+
+            },
+
+
+
+        },
+        errorElement: 'span',
+        errorPlacement: function(error, element) {
+            error.addClass('invalid-feedback');
+            element.closest('.form-group').append(error);
+        },
+        highlight: function(element, errorClass, validClass) {
+            $(element).addClass('is-invalid');
+        },
+        unhighlight: function(element, errorClass, validClass) {
+            $(element).removeClass('is-invalid');
+        },
+        submitHandler: function(form) {
+
+            $.ajax({
+                type: 'POST',
+                url: "services/distributor/data.php?v=insertdistributor",
+                data: $(form).serialize(),
+                success: function(response) {
+                    //console.log(response)
+                    $('#modal-distributor').modal('hide');
+                    getdistributor()
+                    toastr.success('บันทึกข้อมูลแล้วครับ.')
+                    form.reset();
+                },
+                error: function(error) {
+                    console.log(error)
+                }
+            });
+        }
+
+    });
+    //get ข้อมูล
+    function getdistributor() {
+        $.ajax({
+            type: 'GET',
+            url: "services/distributor/data.php?v=searchdistributor",
+            success: function(response) {
+                // console.log(response)
+                var distributor = '<option disabled selected value="">--------  เลือก ---------</option>'
+                $.each(response, function(index, item) {
+                    distributor += `<option value=${item.id}>${item.nametype}</option>`;
+                })
+                $('#productdistributor').html(distributor);
+                $('#editdistributor').html(distributor)
+
+            },
+            error: function(error) {
+                console.log(error)
+            }
+        });
+    }
+
+
+
     //แก้ไข
     function modalEdit(item) {
-        console.log(item)
+        // console.log(item)
         $('#editId').val(item.id)
         $('#editbarcode').val(item.barcode)
         $('#editproductid').val(item.productid)
@@ -975,6 +1102,7 @@ $connect->connectData();
         $('#editproductnumber').val(item.numproduct)
         $('#editproductunit').val(item.unit);
         $('#editproductstatus').val(item.status);
+        $('#editdistributor').val(item.distributor);
         var imageProduct = document.getElementById('editproductimage');
         var base64ImageInput = document.getElementById('editbase64Image');
         if (item.imageproduct !== undefined && item.imageproduct != null && item.imageproduct !== "") {
@@ -984,7 +1112,7 @@ $connect->connectData();
 
     }
 
-    //แก้ไจข้อมูลสินค้า
+    //แก้ไขข้อมูลสินค้า
     $('#editproductForm').validate({
         rules: {
             editproductid: {
@@ -1000,6 +1128,9 @@ $connect->connectData();
                 required: true,
             },
             editproductnumber: {
+                required: true,
+            },
+            editdistributor: {
                 required: true,
             },
 
@@ -1025,6 +1156,9 @@ $connect->connectData();
                 required: "โปรดกรอกจำนวนสินค้า",
 
             },
+            editdistributor: {
+                require: "โปรดเลือก distributor",
+            }
 
 
         },

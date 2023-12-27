@@ -8,29 +8,57 @@ $data = isset($_GET['v']) ? $_GET['v'] : '';
 $result = array();
 if ($data == "insertPro") {
     $product = $_POST;
-    $connect->sql = "INSERT INTO `products` 
-    (`productid`, `barcode`, `productname`, `unit`,
-     `imageproduct`, `status`, `typeproduct`,
-      `numproduct`, `dateinsert`, `nameinsert`,
-       `dateupdate`) VALUES 
-       ('" . $product['productid'] . "',
-       '" . $product['barcode'] . "',
-       '" . $product['productname'] . "',
-       '" . $product['productunit'] . "',
-       '" . $product['base64Image'] . "',
-       '1',
-       '" . $product['producttype'] . "',
-       '" . $product['productnumber'] . "',
-       '" . date('Y-m-d H:i:s') . "',
-       'nameinsert',
-       '" . date('Y-m-d H:i:s') . "'
-       )";
-    $connect->queryData();
+    if($product['Product_id']>0){
+        //update
+        $connect->sql = "SELECT numproduct FROM products WHERE id='".$_POST['Product_id']."'";
+        $connect->queryData();
+        $rsconnect = $connect->fetch_AssocData();
+        $numproduct=$rsconnect['numproduct']+$product['productnumber'];
+
+        $connect->sql = "UPDATE `products` SET 
+        `productid`='" . $product['productid'] . "',
+        `barcode`='" . $product['barcode'] . "',
+        `productname`='" . $product['productname'] . "',
+        `unit`='" . $product['productunit'] . "',
+        `imageproduct`='" . $product['base64Image'] . "',
+        `typeproduct`='" . $product['producttype'] . "',
+        `numproduct`='" . $numproduct . "',
+        `status`='1',
+        `distributor`='" . $product['productdistributor'] . "',
+        `nameinsert`='".$_SESSION['id']."',
+        `dateupdate`='" . date('Y-m-d H:i:s') . "'
+         WHERE id='" . $product['Product_id'] . "'";
+       $connect->queryData();
+
+    }
+    else{
+        $connect->sql = "INSERT INTO `products` 
+        (`productid`, `barcode`, `productname`, `unit`,
+         `imageproduct`, `status`, `typeproduct`,
+          `numproduct`, `dateinsert`, `nameinsert`,
+           `dateupdate`,distributor) VALUES 
+           ('" . $product['productid'] . "',
+           '" . $product['barcode'] . "',
+           '" . $product['productname'] . "',
+           '" . $product['productunit'] . "',
+           '" . $product['base64Image'] . "',
+           '1',
+           '" . $product['producttype'] . "',
+           '" . $product['productnumber'] . "',
+           '" . date('Y-m-d H:i:s') . "',
+           '".$_SESSION['id']."',
+           '" . date('Y-m-d H:i:s') . "',
+           '".$product['productdistributor']."'
+           )";
+        $connect->queryData();
+    }
+    
     echo json_encode($_POST);
 } else if ($data == "searchProducts") {
-    $connect->sql = "SELECT	products.id,	productid,	barcode,	productname,	imageproduct,	products.`status`,	typeproduct,	numproduct,	nametype,	nameunit,	unit 
-    FROM	products
+    $connect->sql = "SELECT	products.id,	productid,	barcode,	productname,	imageproduct,	products.`status`,	typeproduct,	numproduct,	distributor.nametype as namedis, producttype.nametype as nametype,	nameunit,	unit,distributor
+    FROM	products   
 	INNER JOIN units ON products.unit = units.id
+    INNER JOIN distributor ON products.distributor = distributor.id
 	INNER JOIN producttype ON products.typeproduct = producttype.id ORDER BY products.productname asc";
     $connect->queryData();
     while ($rsconnect = $connect->fetch_AssocData()) {
@@ -39,10 +67,11 @@ if ($data == "insertPro") {
     echo json_encode($result);
 } else if ($data == "searchProductsByID") {
 
-    $connect->sql = "SELECT	products.id,	productid,	barcode,	productname,	imageproduct,	products.`status`,	typeproduct,	numproduct,	nametype,	nameunit,	unit 
+    $connect->sql = "SELECT	products.id,	productid,	barcode,	productname,	imageproduct,	products.`status`,	typeproduct,	numproduct,	distributor.nametype as namedis, producttype.nametype as nametype,	nameunit,	unit, distributor 
     FROM	products
 	INNER JOIN units ON products.unit = units.id
 	INNER JOIN producttype ON products.typeproduct = producttype.id
+    INNER JOIN distributor ON products.distributor = distributor.id
     WHERE products.id='" . $_GET['id'] . "'
     ORDER BY products.productname asc";
     $connect->queryData();
@@ -51,10 +80,11 @@ if ($data == "insertPro") {
     echo json_encode($result[0]);
 } else if ($data == "searchProductsByBarcode") {
 
-    $connect->sql = "SELECT	products.id,	productid,	barcode,	productname,	imageproduct,	products.`status`,	typeproduct,	numproduct,	nametype,	nameunit,	unit 
+    $connect->sql = "SELECT	products.id,	productid,	barcode,	productname,	imageproduct,	products.`status`,	typeproduct,	numproduct,	distributor.nametype as namedis, producttype.nametype as nametype,	nameunit,	unit, distributor 
     FROM	products
 	INNER JOIN units ON products.unit = units.id
 	INNER JOIN producttype ON products.typeproduct = producttype.id
+    INNER JOIN distributor ON products.distributor = distributor.id
     WHERE products.barcode='" . $_GET['barcode'] . "'
     ORDER BY products.productname asc";
     $connect->queryData();
@@ -77,6 +107,7 @@ if ($data == "insertPro") {
      `typeproduct`='" . $product['editproducttype'] . "',
      `numproduct`='" . $product['editproductnumber'] . "',
      `status`='" . $product['editproductstatus'] . "',
+     `distributor`='" . $product['editdistributor'] . "',
      `nameinsert`='nameinsert',
      `dateupdate`='" . date('Y-m-d H:i:s') . "'
       WHERE id='" . $product['editId'] . "'";

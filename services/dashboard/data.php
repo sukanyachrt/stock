@@ -10,9 +10,7 @@ $data = isset($_GET['v']) ? $_GET['v'] : '';
 $result = array();
 if ($data == "stockoftypeproduct") {
     $resType = array();
-    $connect->sql = "SELECT nametype,id FROM 	producttype
-    WHERE `status`=1
-    GROUP BY nametype";
+    $connect->sql = "SELECT nametype,id FROM `producttype` WHERE status=1";
     $connect->queryData();
     while ($rsconnect = $connect->fetch_AssocData()) {
 

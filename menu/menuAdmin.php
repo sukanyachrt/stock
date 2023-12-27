@@ -102,12 +102,17 @@ function isActive($data)
 							</a>
 						</li>
 						<li class="nav-item">
+							<a href="distributor" class="nav-link <?php echo isActive('distributor') ?>">
+								<i class="far fas fa-tasks nav-icon"></i>
+								<p>ผู้จัดจำหน่าย</p>
+							</a>
+						</li>
+						<li class="nav-item">
 							<a href="unit" class="nav-link <?php echo isActive('unit') ?>">
 								<i class="far fa-circle nav-icon"></i>
 								<p>ข้อมูลหน่วยนับ</p>
 							</a>
 						</li>
-
 					</ul>
 				</li>
 				<li class="nav-header">บัญชีการเข้าใช้</li>

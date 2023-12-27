@@ -2,7 +2,7 @@
 
 class Connect_Data
 {
-  public $database = 'stock';
+  public $database = 'stocks';
   public $conn = '';
   public $sql = '';
   public $query = '';

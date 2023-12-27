@@ -72,6 +72,18 @@ class producttype extends Controller
     }
 }
 
+class distributor extends Controller
+
+{
+    function __construct()
+    {
+        parent::__construct();
+        $this->view->render('admin/distributor/index');
+    }
+}
+
+
+
 class unit extends Controller
 {
     function __construct()
