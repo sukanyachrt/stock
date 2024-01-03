@@ -128,7 +128,7 @@
                     <i class="fas fa-save"></i>
                     บันทึกข้อมูล
                   </button>
-                  <button type="button" class="btn btn-warning">
+                  <button type="button" class="btn btn-warning" onclick="CancelWithdraw()">
                     <i class="fas fa-undo"></i>
                     ยกเลิก
                   </button>
@@ -582,7 +582,10 @@
       $('.classshowSearch').hide();
     }
   });
-
+  //ยกเลิกกรเบิกของ
+  function CancelWithdraw() {
+    $('#tbProducts tbody').html('')
+  }
   //ยืนยันการเบิกของ
   function confirmWithdraw() {
     var allInputs = $('#tbProducts tbody tr input[type="number"]');
