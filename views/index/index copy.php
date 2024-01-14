@@ -67,7 +67,7 @@
                             ประเภทการเบิก-คืน
                           </span>
                         </div>
-                        <select id="typewithdraw" name="typewithdraw" class="form-control" onchange="clearWithdraw()">
+                        <select id="typewithdraw" name="typewithdraw" class="form-control">
                           <option disabled selected value="">-- เลือก --</option>
                           <option value="เบิกสินค้า">เบิกสินค้า</option>
                           <option value="คืนสินค้า">คืนสินค้า</option>
@@ -92,7 +92,7 @@
                         <input type="text" class="form-control" autocomplete="yes" id="textsearch" name="textsearch" placeholder="ค้นหาข้อมูล">
 
                         <div class="input-group-append">
-                          <button type="button" class="btn btn-primary" onclick="getProduct_to_table()">
+                          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-searchproduct">
                             <i class="fas fa-search"></i>
                             ค้นหาข้อมูล</button>
                         </div>
@@ -105,7 +105,7 @@
 
                   <div class="row classshowSearch">
                     <div class="col-12">
-                      <table class="table table-bordered" id="tbWithdrawofproduct">
+                      <table class="table table-bordered" id="tbProducts">
                         <thead>
                           <tr>
                             <th class="text-center">#</th>
@@ -199,7 +199,30 @@
             </div>
             <div class="modal-body">
               <div class="row justify-content-center">
-                
+                <!-- <div class="col-12">
+                    <div class="input-group mb-3">
+                      <div class="input-group-append">
+                        <span class="input-group-text">
+                          ประเภทการเบิก-คืน
+                        </span>
+                      </div>
+                      <select id="typewithdraw" name="typewithdraw" class="form-control">
+                        <option disabled selected value="">-- เลือก --</option>
+                        <option value="1">เบิกสินค้า</option>
+                        <option value="0">คืนสินค้า</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="input-group mb-3">
+                      <div class="input-group-append">
+                        <span class="input-group-text">
+                          ชื่อผู้เบิกของ
+                        </span>
+                      </div>
+                      <input type="text" autocomplete="yes" class="form-control" id="namewithdraw" name="namewithdraw" placeholder="ชื่อผู้เบิกของ">
+                    </div>
+                  </div> -->
                 <div class="col-12">
                   <table class="table table-bordered table-hover" id="tbShowconfirm">
                     <thead>
@@ -277,7 +300,7 @@
   });
   $('.classshowSearch').hide();
   $('#textsearch').focus();
-  
+  getProduct();
   $('#modal-searchproduct').on('shown.bs.modal', function() {
     $('#textsearchproduct').focus();
 
@@ -291,7 +314,7 @@
       getProductByBarcode(value);
     }
   });
-  const table = new DataTable('#tbWithdrawofproduct');
+  const table = new DataTable('#tbProducts');
   table.clear();
   let numrow = 1;
 
@@ -320,7 +343,7 @@
           textsearch.value = '';
 
         } else {
-          var tbWithdrawofproduct = `<tr id="row_${item.id}">
+          var tbProducts = `<tr id="row_${item.id}">
                     <td class="text-center">${numrow}</td>
                     <td class="text-center">${item.barcode}</td>
                     <td>${item.productname}</td>
@@ -334,7 +357,7 @@
                 </tr>`;
 
 
-          table.rows.add($(tbWithdrawofproduct)).draw();
+          table.rows.add($(tbProducts)).draw();
           textsearch.value = '';
           updateNumrow()
         }
@@ -349,14 +372,16 @@
 
 
   //ข้อมูลสินค้าลงในตาราง
-  function getProduct_to_table() {
+  function getProduct() {
     $.ajax({
       type: 'GET',
       url: "services/withdraws/data.php?v=searchProducts",
       success: function(response) {
-       $('#tblistProducts tbody').html('')
+        var tablelist = $('#tblistProducts').DataTable();
+        tablelist.clear();
+        var tblistProducts = '';
         $.each(response, function(index, item) {
-          $('#tblistProducts tbody').append(`<tr id="row_${item.id}" data-product-id="${item.id}">
+          tblistProducts += `<tr id="row_${item.id}" data-product-id="${item.id}">
                     <td class="text-center">${item.barcode}</td>
                     <td>${item.productname}</td>
                     <td class="text-center">${item.nametype}</td>
@@ -370,10 +395,9 @@
                     <td class="text-center">
                         ${item.status==1 ? '<span class="badge bg-success">ใช้งาน</span>' : '<span class="badge bg-danger">ไม่ใช้งาน</span>'}
                     </td>
-                </tr>`);
+                </tr>`;
         });
-        $('#modal-searchproduct').modal('show');
-        
+        tablelist.rows.add($(tblistProducts)).draw();
       },
       error: function(error) {
         console.log(error)
@@ -400,8 +424,8 @@
   //เบิกของจากการคลิกตาราง
   function addProductToTable(productId) {
     console.log(productId)
-    var existingRow = $(`#tbWithdrawofproduct #row_${productId}`);
-    console.log(existingRow)
+    var existingRow = $(`#tbProducts #row_${productId}`);
+
     if (existingRow.length > 0) {
 
       var quantityInput = existingRow.find('input[type="number"]');
@@ -414,7 +438,6 @@
         type: 'GET',
         url: "services/products/data.php?v=searchProductsByID&id=" + productId,
         success: function(response) {
-          console.log(response)
           if (response == null) {
             return;
           }
@@ -428,19 +451,19 @@
             quantityInput.val(currentQuantity + 1);
 
           } else {
-            var tbWithdrawofproduct = `<tr id="row_${item.id}">
+            var tbProducts = `<tr id="row_${item.id}">
                   <td class="text-center">${numrow}</td>
                   <td class="text-center">${item.barcode}</td>
                   <td>${item.productname}</td>
                   <td class="text-center">${item.nametype}</td>
                   <td>
-                      <input type="number" min="0" value="1" class="form-control float-right numericInput" placeholder="จำนวนที่เบิก">
+                      <input type="number" value="1" class="form-control float-right" placeholder="จำนวนที่เบิก">
                   </td>
                   <td class="text-center">
                       <button type="button" class="btn btn-xl delete-button"> <i class="fas fa-times delete-row"></i></button>
                   </td>
               </tr>`;
-            table.rows.add($(tbWithdrawofproduct)).draw();
+            table.rows.add($(tbProducts)).draw();
 
             updateNumrow();
             $(`#row_${item.id} .delete-button`).on('click', function() {
@@ -455,7 +478,7 @@
 
     checkNumproduct(productId);
   }
-  $('#tbWithdrawofproduct tbody').on('change', 'input[type="number"]', function() {
+  $('#tbProducts tbody').on('change', 'input[type="number"]', function() {
     var rowId = $(this).closest('tr').attr('id');
     var rowIdParts = rowId.split("row_");
     checkNumproduct(rowIdParts[1]);
@@ -468,7 +491,7 @@
   }
   // อัพเดทเลขแถวในตาราง table เบิกคืน
   function updateNumrow() {
-    $('#tbWithdrawofproduct tbody tr').each(function(index) {
+    $('#tbProducts tbody tr').each(function(index) {
       $(this).find('td:first').text(index + 1);
     });
   }
@@ -514,7 +537,7 @@
   function checkNumproduct(productid) {
     if ($('#typewithdraw').val() == "เบิกสินค้า") {
       var rowId = "row_" + productid;
-      var $targetRow = $('#tbWithdrawofproduct tbody tr[id="' + rowId + '"]');
+      var $targetRow = $('#tbProducts tbody tr[id="' + rowId + '"]');
 
       if ($targetRow.length > 0) {
         var numWithdraw = $targetRow.find('input[type="number"]').val();
@@ -561,18 +584,18 @@
   });
   //ยกเลิกกรเบิกของ
   function CancelWithdraw() {
-    $('#tbWithdrawofproduct tbody').html('')
+    $('#tbProducts tbody').html('')
   }
   //ยืนยันการเบิกของ
   function confirmWithdraw() {
-    var allInputs = $('#tbWithdrawofproduct tbody tr input[type="number"]');
+    var allInputs = $('#tbProducts tbody tr input[type="number"]');
 
     // ตรวจสอบว่าพบหรือไม่
     if (allInputs.length > 0) {
       if ($('#typewithdraw') != "" && ($('#namewithdraw').val().trim()) != "") {
         $('#tbShowconfirm tbody').html('')
         let sumnumWithdraw = 0;
-        $('#tbWithdrawofproduct tbody tr').each(function(index) {
+        $('#tbProducts tbody tr').each(function(index) {
           var rowId = $(this).attr('id');
           var rowIdParts = rowId.split("row_");
           var rowNumber = rowIdParts[1];
@@ -666,24 +689,13 @@
         $('#modal-showResult').modal('hide');
         toastr.success('บันทึกรายการเรียบร้อยแล้วครับ.')
         $('#tbShowconfirm tbody').html('')
-        $('#tbWithdrawofproduct tbody').html('')
+        $('#tbProducts tbody').html('')
         $('#namewithdraw').val('')
       },
       error: function(error) {
         console.log(error);
       }
     });
-  }
-  $("#tbWithdrawofproduct").on("input", ".numericInput", function(){
-    var inputValue = $(this).val();
-    
-    if (inputValue < 0) {
-      $(this).val("1"); // ล้างค่าถ้าน้อยกว่า 0
-      toastr.error('กรุณากรอกตัวเลขมากกว่าหรือเท่ากับ 0')
-    }
-  });
-  function clearWithdraw(){
-      $('#tbWithdrawofproduct tbody').html('')
   }
 </script>
 

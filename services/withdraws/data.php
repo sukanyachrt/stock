@@ -32,21 +32,24 @@ if ($data == "withdrawsProduct") {
 
     echo json_encode(1);
 } else if ($data == "searchProducts") {
-    $connect->sql = "SELECT	products.id,	productid,	barcode,	productname,	imageproduct,	products.`status`,	typeproduct,	numproduct,	nametype,	nameunit,	unit 
+    $connect->sql = "SELECT	products.id,	productid,	barcode,	productname,	imageproduct,	products.`status`,	typeproduct,	numproduct,	producttype.nametype ,	nameunit,	unit 
     FROM	products
 	INNER JOIN units ON products.unit = units.id
-	INNER JOIN producttype ON products.typeproduct = producttype.id WHERE  products.`status`=1 ORDER BY products.productname asc";
+	INNER JOIN producttype ON products.typeproduct = producttype.id
+    INNER JOIN distributor ON products.distributor = distributor.id
+    WHERE  products.`status`=1 AND numproduct>0 ORDER BY products.productname asc";
     $connect->queryData();
     while ($rsconnect = $connect->fetch_AssocData()) {
         array_push($result, $rsconnect);
     }
     echo json_encode($result);
 } else if ($data == "searchProductsByBarcode") {
-    $connect->sql = "SELECT	products.id,	productid,	barcode,	productname,	imageproduct,	products.`status`,	typeproduct,	numproduct,	nametype,	nameunit,	unit 
+    $connect->sql = "SELECT	products.id,	productid,	barcode,	productname,	imageproduct,	products.`status`,	typeproduct,	numproduct,	producttype.nametype,	nameunit,	unit 
     FROM	products
 	INNER JOIN units ON products.unit = units.id
 	INNER JOIN producttype ON products.typeproduct = producttype.id
-    WHERE products.barcode='" . $_GET['barcode'] . "' AND products.`status`=1
+    INNER JOIN distributor ON products.distributor = distributor.id
+    WHERE products.barcode='" . $_GET['barcode'] . "' AND products.`status`=1 AND numproduct>0
     ORDER BY products.productname asc";
     $connect->queryData();
     $rsconnect = $connect->fetch_AssocData();
